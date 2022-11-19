@@ -1,2 +1,2 @@
-export * from "./lib/user-role.enum.js";
-export * from './lib/user.interface.js'
+export * from "./lib/user-role.enum";
+export * from './lib/user.interface'
