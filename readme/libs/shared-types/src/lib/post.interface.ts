@@ -6,7 +6,7 @@ export interface Post {
   userId: string;
   postCategory: PostCategory;
   postStatus: PostStatus;
-  postName: string;
+  postTitle: string;
   postText: string;
   videoLink?: string;
   tagList?: string[];

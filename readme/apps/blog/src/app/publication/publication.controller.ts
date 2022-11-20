@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
 @Controller('publication')
-export class PublicationController {}
+export class PublicationController {
+
+  @Post('publish')
+  @HttpCode(HttpStatus.CREATED)
+  async create() {
+    return {'title': 'Hello'} //
+  }
+
+}
