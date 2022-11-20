@@ -1,2 +1,2 @@
-export * from './lib/helpers.js';
-export * from './lib/crud-repository.interface.js';
+export * from './lib/helpers';
+export * from './lib/crud-repository.interface';
