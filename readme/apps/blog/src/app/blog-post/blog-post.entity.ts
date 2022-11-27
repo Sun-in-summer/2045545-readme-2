@@ -1,29 +1,28 @@
-import {Post, PostCategory, PostStatus} from '@readme/shared-types'
+import {Post, PostCategory} from '@readme/shared-types'
 
 export class BlogPostEntity implements Post {
   public postId?: string;
   public userId: string;
   public postCategory: PostCategory;
-  public postStatus: PostStatus;
-  public postTitle: string;
-  public postText: string;
-  public videoLink?: string;
-  public tagList?: string[];
-  public previewText?: string;
-  public quoteText?: string;
-  public quoteAuthor?: string;
-  public photoLink?: string;
-  public linkURL?: string;
+  public postTitle?: string;
+  public postAnnotation?: string;
+  public postText?: string;
+  public link?: string;
   public linkDescription?: string;
+  public quoteAuthor: string;
+  public quoteText: string;
+  public isDraft: boolean;
+  public isRepost: boolean;
+  public tagList?: string[];
   public commentsCount: number;
   public repostsCount: number;
   public likesCount: number;
-  public isRepost: boolean;
   public createDate: Date;
   public publicationDate: Date;
 
 
-  constructor (blogPost: Post) {
+
+ constructor (blogPost: Post) {
     this.fillEntity(blogPost);
   }
 
@@ -37,22 +36,24 @@ export class BlogPostEntity implements Post {
     this.postId =blogPost.postId,
     this.userId =blogPost.userId,
     this.postCategory =blogPost.postCategory,
-    this.postStatus = blogPost.postStatus,
-    this.postTitle= blogPost.postTitle,
-    this.postText= blogPost.postText,
-    this.videoLink= blogPost.videoLink,
+    this.isDraft = blogPost.isDraft,
     this.tagList= blogPost.tagList,
-    this.previewText= blogPost.previewText,
-    this.quoteText= blogPost.quoteText,
-    this.quoteAuthor= blogPost.quoteAuthor,
-    this.photoLink= blogPost.photoLink,
-    this.linkURL= blogPost.linkURL,
-    this.linkDescription =blogPost.linkDescription,
     this.commentsCount= blogPost.commentsCount,
     this.repostsCount= blogPost.repostsCount,
     this.likesCount= blogPost.likesCount,
     this.isRepost= blogPost.isRepost,
     this.createDate= blogPost.createDate,
     this.publicationDate= blogPost.publicationDate
+    this.postTitle = blogPost.postTitle,
+    this.postAnnotation = blogPost.postAnnotation,
+    this.postText =  blogPost.postText,
+    this.link =  blogPost.link,
+    this.linkDescription =  blogPost.linkDescription,
+    this.quoteAuthor = blogPost.quoteAuthor,
+    this.quoteText = blogPost.quoteText,
+    this.isDraft = blogPost.isDraft,
+    this.isRepost = blogPost.isRepost,
+    this.tagList =  blogPost.tagList
+
   }
 }

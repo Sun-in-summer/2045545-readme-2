@@ -1,0 +1,31 @@
+## Create post
+
+POST http://localhost:3333/api/post HTTP/1.1
+Content-Type: application/json
+
+{
+
+  "userId": "391be388-f805-4673-814b-d74222d53c9b",
+  "postCategory": "Video",
+  "isDraft": true,
+  "tagList": ["images", "fun"],
+  "postTitle": "some Title",
+  "postAnnotation": "some annotation",
+  "postText": "some text"
+
+}
+
+###
+##Show all  posts (проверить!!)
+
+GET http://localhost:3333/api/post HTTP/1.1
+Content-Type: application/json
+
+
+###
+##Show one post
+
+GET http://localhost:3333/api/post/003d0faf-8c49-412e-b65b-d1a47e77d40a HTTP/1.1
+Content-Type: application/json
+
+

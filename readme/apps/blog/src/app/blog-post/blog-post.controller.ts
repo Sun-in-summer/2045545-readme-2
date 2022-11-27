@@ -1,0 +1,92 @@
+import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete} from '@nestjs/common';
+import { BlogPostService } from './blog-post.service';
+import { ApiResponse} from '@nestjs/swagger';
+import { CreatedPostRdo } from './rdo/created-post.rdo';
+import { fillObject, User } from '@readme/core';
+import { BlogCommentService } from '../blog-comment/blog-comment.service';
+import { CreatePostDto } from './dto/create-post.dto';
+
+
+@Controller('post')
+export class BlogPostController {
+
+  constructor (
+    private readonly blogPostService: BlogPostService,
+    private readonly blogCommentService: BlogCommentService
+  ){}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create( @Body()dto: CreatePostDto ) {  //@User('userId') userId: string
+    const post = await this.blogPostService.create(dto);
+
+    // const createdPost = fillObject(CreatedPostRdo, post);///
+    return post;
+  }
+
+  @Get()
+  @ApiResponse({
+
+    status: HttpStatus.OK,
+    description: "Posts has been found"
+  })
+  async showAllPosts(){
+    const existPosts = await this.blogPostService.show();
+
+    console.log(existPosts);
+    // const posts = existPosts.forEach((item) => fillObject(CreatedPostRdo, item));
+
+    return existPosts;
+  }
+
+  @Get(':postId')
+  @ApiResponse({
+    type: CreatedPostRdo,
+    status: HttpStatus.OK,
+    description: "Post has been found"
+  })
+  async show(@Param('postId') postId: string){
+    const existPost = await this.blogPostService.getPost(postId);
+    console.log(existPost);
+    return fillObject(CreatedPostRdo, existPost);
+  }
+
+
+
+
+  @Patch(':postId')
+  @ApiResponse({
+    type: CreatePostDto,
+    status: HttpStatus.OK,
+    description: 'Post has been updated'
+  })
+  async update(@Param('postId') postId: string, @User() userId: string, @Body() dto: CreatePostDto ) {
+    const existPost = await this.blogPostService.update(postId, userId, dto );
+    return fillObject(CreatedPostRdo, existPost);
+  }
+
+  @Delete(':postId')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Post has been deleted'
+  })
+  async delete(@Param('postId') postId: string, @User() userId: string): Promise <void>{
+    this.blogPostService.delete(postId, userId);
+    this.blogCommentService.deleteByPostId(postId);
+
+  }
+
+  @Post(':postId/repost')
+  @ApiResponse({
+   status: HttpStatus.OK,
+   description: 'Post has been reposted'
+  })
+  async repost(@Param('postId') postId:string){
+      const post = await this.blogPostService.repost(postId);
+      return fillObject(CreatedPostRdo, post);
+  }
+
+
+
+}
+

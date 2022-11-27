@@ -1,8 +1,0 @@
-# Create post
-
-POST http://localhost:3333/api/publication/publish HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "lk@email.com"
-}
