@@ -17,9 +17,9 @@ private repository: {[key:string]: Post} ={}
   }
 
   public async create(item: BlogPostEntity): Promise<Post> {
-    const entry = {...item.toObject(), postId: crypto.randomUUID()};
-    this.repository[entry.postId] = entry;
-    console.log(this.repository["fab7a605-5b19-4248-b8c6-273c328b5f49"]);
+    const entry = {...item.toObject(), _id: crypto.randomUUID()};
+    entry.postId = entry._id;
+    this.repository[entry._id] = entry;
     return {...entry};
   }
 

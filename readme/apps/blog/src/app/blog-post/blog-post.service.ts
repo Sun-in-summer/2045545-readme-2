@@ -68,14 +68,13 @@ export class BlogPostService {
   }
 
   async show (): Promise <Post[]>{
-    console.log(await this.blogPostRepository.index());
+
     return await this.blogPostRepository.index()
   }
 
   async getPost(postId: string): Promise <Post> {
 
     const post =  await this.blogPostRepository.findById(postId);
-    console.log(post);
     return post;
 
   }

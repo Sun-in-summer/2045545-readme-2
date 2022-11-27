@@ -32,10 +32,6 @@ export class BlogPostController {
   })
   async showAllPosts(){
     const existPosts = await this.blogPostService.show();
-
-    console.log(existPosts);
-    // const posts = existPosts.forEach((item) => fillObject(CreatedPostRdo, item));
-
     return existPosts;
   }
 
@@ -47,8 +43,9 @@ export class BlogPostController {
   })
   async show(@Param('postId') postId: string){
     const existPost = await this.blogPostService.getPost(postId);
-    console.log(existPost);
-    return fillObject(CreatedPostRdo, existPost);
+
+    // return fillObject(CreatedPostRdo, existPost);
+    return existPost;
   }
 
 
