@@ -4,6 +4,7 @@ import { getMongoConnectionString } from '@readme/core';
 
 
 export function getMongoDbConfig(): MongooseModuleAsyncOptions {
+
   return {
     useFactory: async (configService: ConfigService ) => ({
       uri: getMongoConnectionString({
