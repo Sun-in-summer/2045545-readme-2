@@ -31,4 +31,10 @@ export class CreateUserDto {
   })
   public password: string;
 
+  @ApiProperty({
+    description: 'Avatar image file name',
+    example: "avatar.jpg"
+  })
+  public avatar: string;
+
 }

@@ -10,7 +10,7 @@ export class  UserRdo {
   public id: string;
 
   @ApiProperty({
-    description: "USer's avatar",
+    description: "User's avatar",
     example: "/images/avatar.jpg"
   })
   @Expose()

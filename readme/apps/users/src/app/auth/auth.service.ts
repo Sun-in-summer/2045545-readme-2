@@ -23,8 +23,8 @@ export class AuthService {
     const {email, birthDate, firstname, lastname, password} = dto;
 
     const blogUser ={
-    _id: '', email, birthDate: dayjs(birthDate).toDate(), lastname, firstname, role: UserRole.User,
-    avatar: '', passwordHash: ''
+    email, birthDate: dayjs(birthDate).toDate(), lastname, firstname, role: UserRole.User,
+    avatar: dto.avatar ? dto.avatar: '', passwordHash: ''
     }
 
     const existUser = await this.blogUserRepository
@@ -58,6 +58,11 @@ export class AuthService {
   }
 
   async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
+    const existUser = await this.blogUserRepository.findById(id);
+    if (!existUser){
+      return null;
+    }
+
+    return  existUser;
   }
 }

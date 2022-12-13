@@ -46,7 +46,7 @@ export class AuthController {
     description: "User has been found"
   })
   async show(@Param('id') id: string){
-    const existUser = await this.authService.getUser(id);
-    return fillObject(UserRdo, existUser);
+    const user =  this.authService.getUser(id);
+    return fillObject(UserRdo, user);
   }
 }

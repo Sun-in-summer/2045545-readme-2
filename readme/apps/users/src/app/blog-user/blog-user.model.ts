@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User, UserRole } from '@readme/shared-types';
-import {Document} from 'mongoose';
+import  {Document} from 'mongoose';
 
 
 
@@ -29,9 +29,7 @@ export class BlogUserModel extends Document implements User {
   })
   birthDate: Date;
 
-  @Prop({
-    required: true,
-  })
+  @Prop()
   avatar: string;
 
   @Prop({
@@ -46,6 +44,10 @@ export class BlogUserModel extends Document implements User {
     required: true,
   })
   passwordHash: string;
+
+
+
+
 }
 
 export const BlogUserSchema = SchemaFactory.createForClass(BlogUserModel);
