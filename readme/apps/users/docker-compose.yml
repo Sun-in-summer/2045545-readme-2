@@ -11,7 +11,7 @@ services:
     ports:
     - 27017:27017
     healthcheck:
-      test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u admin -p test --quiet | grep 1
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh admin -u admin -p test --quiet | grep 1
       interval: 10s
       timeout: 10s
       retries: 3
