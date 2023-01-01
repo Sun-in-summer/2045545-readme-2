@@ -11,29 +11,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id           Int        @id @default(autoincrement())
-  title        String
-  categories   Category[]
-  announceText String
-  text         String
-  createdAt    DateTime   @default(now())
-  publishedAt  DateTime   @default(now())
-  userId       String
-  comments     Comment[]
+enum PublicationType {
+  Video
+  Text
+  Quote
+  Photo
+  Link
 }
 
-model Category {
-  id    Int    @id @default(autoincrement())
-  title String
-  posts Post[]
+model Post {
+  id             Int       @id @default(autoincrement())
+  originalId     Int       @default(autoincrement())
+  type           String
+  content        Json
+  isPublished    Boolean
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
+  publishedAt    DateTime  @default(now())
+  userId         String
+  originalUserId String
+  likes          Like[]
+  likesCount     Int       @default(0)
+  comments       Comment[]
+  commentsCount  Int       @default(0)
+  isRepost       Boolean   @default(false)
+  tags           Tag[]
+}
+
+model Like {
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@id([userId, postId])
+}
+
+model Tag {
+  name String @id
+  post Post[]
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
   text      String
   userId    String
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    Int
 }
