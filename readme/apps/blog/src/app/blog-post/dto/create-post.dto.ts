@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { PostCategory } from '@readme/shared-types';
+import { PostCategory , PostContent} from '@readme/shared-types';
 
 export class CreatePostDto {
  @ApiProperty({
@@ -8,12 +8,6 @@ export class CreatePostDto {
   })
   public postCategory: PostCategory;
 
-
-  @ApiProperty({
-    description: 'The title of the post.',
-    required: true,
-  })
-  public postTitle: string;
 
   @ApiProperty({
     description: 'The list of the tags.',
@@ -33,27 +27,13 @@ export class CreatePostDto {
   })
   public userId:  string;
 
-   @ApiProperty({
-    description: 'PostId'
+
+  @ApiProperty({
+    description: 'The content of the post, depends on type of the post',
+    example: "{}",
+    required: true
   })
-  public postId:  string;
-
-
-  public postAnnotation: string;
-  public postText: string;
-  public link: string;
-  public linkDescription?: string;
-  public quoteAuthor: string;
-  public quoteText: string;
-
-  public isRepost: boolean;
-
-  public commentsCount: number;
-  public repostsCount: number;
-  public likesCount: number;
-  public createDate: Date;
-  public publicationDate: Date;
-
+  public postContent: PostContent;
 
 }
 

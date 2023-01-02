@@ -1,23 +1,21 @@
 import { PostCategory } from './post-category.enum';
+import { PostContent } from './post-content.types';
 
 
 export interface Post {
   postId?: string;
+  originalPostId?: string;
   userId: string;
+  originalUserId?: string;
   postCategory: PostCategory;
-  postTitle?: string;
-  postAnnotation?: string;
-  postText?: string;
-  link?: string;
-  linkDescription?: string;
-  quoteAuthor: string;
-  quoteText: string;
   isDraft: boolean;
-  isRepost: boolean;
+  isRepost?: boolean;
   tagList?: string[];
   commentsCount: number;
   repostsCount: number;
   likesCount: number;
-  createDate: Date;
-  publicationDate: Date;
+  createdAt?: Date;
+  publishedAt?: Date;
+  updatedAt?: Date;
+  postContent: PostContent;
 }

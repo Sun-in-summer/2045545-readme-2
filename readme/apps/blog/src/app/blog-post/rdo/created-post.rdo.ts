@@ -1,8 +1,21 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { Content, PostCategory } from '@readme/shared-types';
+import { PostContent, PostCategory } from '@readme/shared-types';
+
 
 
 export class CreatedPostRdo {
+  @ApiProperty({
+    description: "id of the post",
+    example: '123',
+  })
+  public postId: string;
+
+  @ApiProperty({
+    description: "Originals id of the post",
+    example: '12',
+  })
+  public originalPostId: string;
+
   @ApiProperty({
     description: 'The category of the post.',
     required: true,
@@ -14,7 +27,7 @@ export class CreatedPostRdo {
     description: 'The content of the post.',
     required: true,
   })
-  public postContent: Content;
+  public postContent: PostContent;
 
   @ApiProperty({
     description: 'The list of the tags.',
@@ -35,32 +48,47 @@ export class CreatedPostRdo {
   public userId:  string;
 
    @ApiProperty({
-    description: 'The title of the post.',
+    description: 'Id of original user.',
     required: true,
   })
-  public postTitle: string;
+  public orignalUserId: string;
 
-
-   @ApiProperty({
-    description: 'PostId'
+ @ApiProperty({
+    description: 'The date of creation of the post',
+    example: `${new Date()}`,
   })
-  public postId:  string;
+  public createdAt: Date;
+
+  @ApiProperty({
+    description: 'The date of update of the the post',
+    example: `${new Date()}`,
+  })
+  public updatedAt: Date;
+
+  @ApiProperty({
+    description: 'The date of publication of the the post',
+    example: `${new Date()}`,
+  })
+  public publishedAt: Date;
 
 
-  public postAnnotation: string;
-  public postText: string;
-  public link: string;
-  public linkDescription?: string;
-  public quoteAuthor: string;
-  public quoteText: string;
-
-  public isRepost: boolean;
-
-  public commentsCount: number;
-  public repostsCount: number;
+ @ApiProperty({
+    description: 'The number of likes of the post',
+    example: '51',
+  })
   public likesCount: number;
-  public createDate: Date;
-  public publicationDate: Date;
+
+  @ApiProperty({
+    description: 'The number of comments of the post',
+    example: '7',
+  })
+  public commentsCount: number;
+
+  @ApiProperty({
+    description: 'The number of reposts of the post',
+    example: '8',
+  })
+  public repostsCount: number;
 
 
 }

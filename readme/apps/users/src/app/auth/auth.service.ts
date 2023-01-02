@@ -58,10 +58,10 @@ export class AuthService {
   }
 
   async getUser(id: string) {
-    const existUser = await this.blogUserRepository.findById(id);
-    if (!existUser){
-      return null;
-    }
+    const existUser =  this.blogUserRepository.findById(id);
+    // if (!existUser){
+    //   return null;
+    // }
 
     return  existUser;
   }

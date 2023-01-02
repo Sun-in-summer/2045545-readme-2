@@ -19,8 +19,7 @@ export class BlogPostController {
   @HttpCode(HttpStatus.CREATED)
   async create( @Body()dto: CreatePostDto ) {  //@User('userId') userId: string
     const post = await this.blogPostService.create(dto);
-
-    // const createdPost = fillObject(CreatedPostRdo, post);///
+    // return fillObject(CreatedPostRdo, post);
     return post;
   }
 

@@ -25,4 +25,14 @@
     linkDescription: string;
   }
 
-  export type Content = Text | Video |Quote | Photo | Link
+  export type PostContent = Text | Video |Quote | Photo | Link
+
+  export const PostTypeObject ={////
+    Video: 'Video',
+    Text: 'Text',
+    Quote: "Quote",
+    Photo: "Photo",
+    Link: "Link"
+  } as const;
+
+  export type PostType =keyof typeof PostTypeObject;

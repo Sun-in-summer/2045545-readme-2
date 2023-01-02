@@ -13,27 +13,16 @@ export class BlogPostService {
     private readonly blogPostRepository: BlogPostMemoryRepository
   ){}
 
-  async create(dto: CreatePostDto) {
-
-    const {postCategory, tagList, isDraft, userId} = dto;
-
-    const blogPost = {
-      postId: '',
-      userId,
-      postCategory,
-      isDraft,
-      tagList,
-      quoteAuthor:'',
-      quoteText : '',
+  async create(dto: CreatePostDto): Promise<Post> {
+    const postEntity = new BlogPostEntity(
+      {
+      ...dto,
+      createdAt: dayjs(new Date()).toDate(),
+      publishedAt: dayjs(new Date()).toDate(),
       commentsCount: 0,
       repostsCount: 0,
       likesCount: 0,
-      isRepost: false,
-      createDate: dayjs(new Date()).toDate(),
-      publicationDate: dayjs(new Date()).toDate(),
-    }
-
-    const postEntity = new BlogPostEntity(blogPost);
+    });
 
     return this.blogPostRepository.create(postEntity);
 
