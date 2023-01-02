@@ -1,3 +1,4 @@
+import {Prisma} from '@prisma/client';
 
   type Text ={
     postTitle: string;
@@ -25,7 +26,7 @@
     linkDescription: string;
   }
 
-  export type PostContent = Text | Video |Quote | Photo | Link
+  export type PostContent = Text | Video |Quote | Photo | Link | Prisma.JsonValue;
 
   export const PostTypeObject ={////
     Video: 'Video',

@@ -8,13 +8,13 @@ export class CreatedPostRdo {
     description: "id of the post",
     example: '123',
   })
-  public postId: string;
+  public postId: number;
 
   @ApiProperty({
     description: "Originals id of the post",
     example: '12',
   })
-  public originalPostId: string;
+  public originalPostId: number;
 
   @ApiProperty({
     description: 'The category of the post.',

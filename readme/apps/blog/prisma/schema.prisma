@@ -11,7 +11,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PublicationType {
+enum PostCategory {
   Video
   Text
   Quote
@@ -20,22 +20,22 @@ enum PublicationType {
 }
 
 model Post {
-  id             Int       @id @default(autoincrement())
-  originalPostId Int       @default(autoincrement())
-  postCategory   String
+  id             Int          @id @default(autoincrement())
+  originalPostId Int          @default(autoincrement())
+  postCategory   PostCategory
   postContent    Json
   isDraft        Boolean
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now())
-  publishedAt    DateTime  @default(now())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  publishedAt    DateTime     @default(now())
   userId         String
   originalUserId String
   likes          Like[]
-  likesCount     Int       @default(0)
+  likesCount     Int          @default(0)
   comments       Comment[]
-  commentsCount  Int       @default(0)
-  repostsCount   Int       @default(0)
-  isRepost       Boolean   @default(false)
+  commentsCount  Int          @default(0)
+  repostsCount   Int          @default(0)
+  isRepost       Boolean      @default(false)
   tags           Tag[]
 }
 

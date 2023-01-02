@@ -4,14 +4,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Post } from '@readme/shared-types';
 
+
 @Injectable()
 export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number, Post> {
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(item: BlogPostEntity): Promise<Post> {
-    return this.prisma.post.create({
-      data: { ...item.toObject() }
+     const entityData = item.toObject();
+     const post = await this.prisma.post.create({
+      data: {...entityData}
     });
+     return post;
   }
 
   public async destroy(id: number): Promise<void> {
@@ -22,7 +25,7 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
     });
   }
 
-  public findById(id: number): Promise<Post | null> {
+  public findById(id: number): Promise< Post | null > {
     return this.prisma.post.findFirst({
       where: {
         id
@@ -30,8 +33,8 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
     });
   }
 
-  public find(ids: number[] = []): Promise<Category[]> {
-    return this.prisma.category.findMany({
+  public find(ids: number[] = []): Promise<Post[]> {
+    return this.prisma.post.findMany({
       where: {
         id: {
           in: ids.length > 0 ? ids : undefined
@@ -40,8 +43,8 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
     });
   }
 
-  public update(id: number, item: BlogCategoryEntity): Promise<Category> {
-    return this.prisma.category.update({
+  public update(id: number, item: BlogPostEntity): Promise<Post> {
+    return this.prisma.post.update({
       where: {
         id
       },

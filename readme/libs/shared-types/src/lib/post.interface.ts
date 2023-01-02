@@ -1,13 +1,12 @@
-import { PostCategory } from './post-category.enum';
 import { PostContent } from './post-content.types';
 
 
 export interface Post {
-  postId?: string;
-  originalPostId?: string;
+  postId?: number;
+  originalPostId?: number;
   userId: string;
   originalUserId?: string;
-  postCategory: PostCategory;
+  postCategory: string ;////PostCategory
   isDraft: boolean;
   isRepost?: boolean;
   tagList?: string[];
