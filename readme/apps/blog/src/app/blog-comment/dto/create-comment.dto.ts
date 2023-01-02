@@ -12,6 +12,6 @@ export class CreateCommentDto {
     description: 'The id of the post for comment.',
     required: true,
   })
-  public postId: string;
+  public postId: number;
 
 }

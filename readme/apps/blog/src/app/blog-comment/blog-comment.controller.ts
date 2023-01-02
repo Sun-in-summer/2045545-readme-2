@@ -31,7 +31,7 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async showByPostId(@Param('postId') postId: string){
+  public async showByPostId(@Param('postId') postId: number){
     const existComment = await this.blogCommentService.getCommentsByPostId(postId);
     return fillObject(CreatedCommentRdo, existComment);
   }
@@ -49,7 +49,7 @@ export class BlogCommentController {
 
   @Delete(':commentId')
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: HttpStatus.NO_CONTENT,
     description: "Comment has been deleted"
   })
   public async delete(@Param('commentId') commentId:string, @User() userId: string){
