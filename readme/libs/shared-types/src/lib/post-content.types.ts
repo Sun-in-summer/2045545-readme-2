@@ -21,7 +21,7 @@
 
 
   type  Link ={
-    linkUPL: string;
+    linkURL: string;
     linkDescription: string;
   }
 
