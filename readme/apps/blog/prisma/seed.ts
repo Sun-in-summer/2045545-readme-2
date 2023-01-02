@@ -7,12 +7,12 @@ async function fillDb() {
     where: { id: 1 },
     update: {},
     create: {
-      originalId: 1,
-      isPublished: true,
+      originalPostId: 1,
+      isDraft: true,
       userId: 'user1',
       originalUserId: 'user1',
-      type: 'Link',
-      content: {
+      postCategory: 'Link',
+      postContent: {
         linkURL: 'wwww.videolink.ru',
         linkDescription: 'just a sample of link to the video',
       },
@@ -44,12 +44,12 @@ async function fillDb() {
     where: { id: 2 },
     update: {},
     create: {
-      originalId: 2,
-      isPublished: false,
+      originalPostId: 2,
+      isDraft: false,
       userId: 'user2',
       originalUserId: 'user2',
-      type: 'Text',
-      content: {
+      postCategory: 'Text',
+      postContent: {
         postTitle: 'The title of the post',
         preview: 'The preview text ',
         postText: 'The text of the post',
@@ -82,12 +82,12 @@ async function fillDb() {
     where: { id: 3 },
     update: {},
     create: {
-      originalId: 3,
-      isPublished: true,
+      originalPostId: 3,
+      isDraft: true,
       userId: 'user3',
       originalUserId: 'user3',
-      type: 'Quote',
-      content: {
+      postCategory: 'Quote',
+      postContent: {
         quoteText: 'The quote itself',
         quoteAuthor: 'Omar Hayam',
       },

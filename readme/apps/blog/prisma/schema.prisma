@@ -21,10 +21,10 @@ enum PublicationType {
 
 model Post {
   id             Int       @id @default(autoincrement())
-  originalId     Int       @default(autoincrement())
-  type           String
-  content        Json
-  isPublished    Boolean
+  originalPostId Int       @default(autoincrement())
+  postCategory   String
+  postContent    Json
+  isDraft        Boolean
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @default(now())
   publishedAt    DateTime  @default(now())
@@ -34,6 +34,7 @@ model Post {
   likesCount     Int       @default(0)
   comments       Comment[]
   commentsCount  Int       @default(0)
+  repostsCount   Int       @default(0)
   isRepost       Boolean   @default(false)
   tags           Tag[]
 }
