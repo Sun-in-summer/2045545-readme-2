@@ -69,13 +69,13 @@ export class BlogCommentService {
 
   }
 
-  async getCommentsByPostId(postId: string) : Promise <Comment[]> {
+  async getCommentsByPostId(postId: number) : Promise <Comment[]> {
     const comments =await this.blogCommentRepository.index();
     const commentsByPostId = comments.filter((item)=> item.postId === postId);
     return commentsByPostId;
   }
 
-  async deleteByPostId (postId: string): Promise <void> {
+  async deleteByPostId (postId: number): Promise <void> {
     const comments = await this.getCommentsByPostId(postId);
     comments.forEach((comment) => this.blogCommentRepository.destroy(comment.commentId));
   }

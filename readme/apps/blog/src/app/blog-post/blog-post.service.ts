@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Post } from '@readme/shared-types';
-import { BlogPostMemoryRepository } from '../blog-post/blog-post-memory.repository';
+// import { BlogPostMemoryRepository } from '../blog-post/blog-post-memory.repository';
+import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostEntity } from '../blog-post/blog-post.entity';
 import {  CreatePostDto } from './dto/create-post.dto';
 import * as dayjs from 'dayjs';
@@ -10,7 +11,7 @@ import { NO_PERMISSION, POST_NOT_FOUND } from './blog-post.constant';
 export class BlogPostService {
 
   constructor (
-    private readonly blogPostRepository: BlogPostMemoryRepository
+    private readonly blogPostRepository: BlogPostRepository
   ){}
 
   async create(dto: CreatePostDto): Promise<Post> {
@@ -28,7 +29,7 @@ export class BlogPostService {
 
   }
 
-  async update (postId: string, userId: string, dto: CreatePostDto ): Promise <Post> {
+  async update (postId: number, userId: string, dto: CreatePostDto ): Promise <Post> {
      const existPost = await this.blogPostRepository.findById(postId);
 
      if(!existPost) {
@@ -45,7 +46,7 @@ export class BlogPostService {
 
   }
 
-  async delete (postId: string, userId: string): Promise <void> {
+  async delete(postId: number, userId: string): Promise <void> {
     const existPost = await this.blogPostRepository.findById(postId);
     if (!existPost) {
       throw new Error(POST_NOT_FOUND);
@@ -56,19 +57,18 @@ export class BlogPostService {
     this.blogPostRepository.destroy(postId)
   }
 
-  async show (): Promise <Post[]>{
-
-    return await this.blogPostRepository.index()
+  async show(): Promise <Post[]>{
+    return await this.blogPostRepository.find()
   }
 
-  async getPost(postId: string): Promise <Post> {
+  async getPost(postId: number): Promise <Post> {
 
     const post =  await this.blogPostRepository.findById(postId);
     return post;
 
   }
 
-  async repost(postId) : Promise <Post> {
+  async repost(postId: number) : Promise <Post> {
     const post = await this.blogPostRepository.findById(postId);
 
     if (!post) {

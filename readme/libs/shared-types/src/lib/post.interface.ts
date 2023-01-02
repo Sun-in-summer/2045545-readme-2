@@ -6,7 +6,7 @@ export interface Post {
   originalPostId?: number;
   userId: string;
   originalUserId?: string;
-  postCategory: string ;////PostCategory
+  postCategory: string ;
   isDraft: boolean;
   isRepost?: boolean;
   tagList?: string[];
