@@ -12,7 +12,15 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
   public async create(item: BlogPostEntity): Promise<Post> {
      const entityData = item.toObject();
      const post = await this.prisma.post.create({
-      data: {...entityData}
+      data: {
+        ...entityData,
+        comments: {
+          connect: []
+        }
+      },
+      include: {
+        comments: true,
+      }
     });
      return post;
   }
@@ -20,21 +28,21 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
   public async destroy(id: number): Promise<void> {
     await this.prisma.post.delete({
       where: {
-       id,
+        id,
       }
     });
   }
 
-  public findById(id: number): Promise< Post | null > {
-    return this.prisma.post.findFirst({
+  public  async findById(id: number): Promise< Post | null > {
+    return await this.prisma.post.findFirst({
       where: {
         id
       }
     });
   }
 
-  public find(ids: number[] = []): Promise<Post[]> {
-    return this.prisma.post.findMany({
+  public async find(ids: number[] = []): Promise<Post[]> {
+    return await this.prisma.post.findMany({
       where: {
         id: {
           in: ids.length > 0 ? ids : undefined
@@ -43,12 +51,19 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
     });
   }
 
-  public update(id: number, item: BlogPostEntity): Promise<Post> {
-    return this.prisma.post.update({
-      where: {
+  public async update(id: number, item: BlogPostEntity): Promise<Post> {
+    const data = item.toObject();
+     return  await  this.prisma.post.update({
+       where: {
         id
       },
-      data: { ...item.toObject(), id}
-    });
+      data: {
+        ...data,
+        id,
+        comments: {
+          connect: []
+        }
+      }
+     });
   }
 }

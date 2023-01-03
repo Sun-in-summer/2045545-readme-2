@@ -32,19 +32,19 @@ model Post {
   originalUserId String
   likes          String[]
   likesCount     Int          @default(0)
-  comments       Comment[]
   commentsCount  Int          @default(0)
   repostsCount   Int          @default(0)
   isRepost       Boolean      @default(false)
   tagsList       String[]
+  comments       Comment[]
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  text      String
-  userId    String
+  id          Int      @id @default(autoincrement())
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  commentText String
+  userId      String
 }

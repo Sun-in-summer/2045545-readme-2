@@ -5,7 +5,7 @@ import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostEntity } from '../blog-post/blog-post.entity';
 import {  CreatePostDto } from './dto/create-post.dto';
 import * as dayjs from 'dayjs';
-import { NO_PERMISSION, POST_NOT_FOUND } from './blog-post.constant';
+import {  POST_NOT_FOUND } from './blog-post.constant';
 
 @Injectable()
 export class BlogPostService {
@@ -23,38 +23,39 @@ export class BlogPostService {
       commentsCount: 0,
       repostsCount: 0,
       likesCount: 0,
+      comments: []
     });
 
     return this.blogPostRepository.create(postEntity);
 
   }
 
-  async update (postId: number, userId: string, dto: CreatePostDto ): Promise <Post> {
+  async update (postId: number, dto: CreatePostDto ): Promise <Post> {
      const existPost = await this.blogPostRepository.findById(postId);
 
      if(!existPost) {
       throw new Error (POST_NOT_FOUND)
      }
 
-     if (existPost.userId !== userId) {
-      throw new Error (NO_PERMISSION);
-     }
+    //  if (existPost.userId !== userId) {
+    //   throw new Error (NO_PERMISSION);
+    //  }
 
-     const updatedData =await new BlogPostEntity({...existPost, ...dto});
+     const updatedData = new BlogPostEntity({...existPost, ...dto, updatedAt: new Date});
 
-     return this.blogPostRepository.update(postId, updatedData);
+     return await this.blogPostRepository.update(postId, updatedData);
 
   }
 
-  async delete(postId: number, userId: string): Promise <void> {
-    const existPost = await this.blogPostRepository.findById(postId);
-    if (!existPost) {
-      throw new Error(POST_NOT_FOUND);
-    }
-    if (existPost.userId !== userId ){
-      throw new Error (NO_PERMISSION);
-    }
-    this.blogPostRepository.destroy(postId)
+  async delete(postId: number) {
+    // const existPost = await this.blogPostRepository.findById(postId);
+    // if (!existPost) {
+    //   throw new Error(POST_NOT_FOUND);
+    // }
+    // if (existPost.userId !== userId ){
+    //   throw new Error (NO_PERMISSION);
+    // }
+    return await this.blogPostRepository.destroy(postId)
   }
 
   async show(): Promise <Post[]>{

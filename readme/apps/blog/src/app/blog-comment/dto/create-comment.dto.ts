@@ -14,4 +14,11 @@ export class CreateCommentDto {
   })
   public postId: number;
 
+  @ApiProperty({
+    description: 'The id of the post for comment.',
+    example: "1afdfw45fgewre56254624gf4",
+    required: true
+  })
+  public userId: string;
+
 }

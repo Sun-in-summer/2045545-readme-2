@@ -2,7 +2,7 @@ import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete
 import { BlogPostService } from './blog-post.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedPostRdo } from './rdo/created-post.rdo';
-import { fillObject, User } from '@readme/core';
+import { fillObject } from '@readme/core';
 import { BlogCommentService } from '../blog-comment/blog-comment.service';
 import { CreatePostDto } from './dto/create-post.dto';
 
@@ -15,7 +15,7 @@ export class BlogPostController {
     private readonly blogCommentService: BlogCommentService
   ){}
 
-  @Post()
+  @Post('/')
   @HttpCode(HttpStatus.CREATED)
   async create( @Body()dto: CreatePostDto ) {  //@User('userId') userId: string
     const post = await this.blogPostService.create(dto);
@@ -23,7 +23,7 @@ export class BlogPostController {
     return post;
   }
 
-  @Get()
+  @Get('/')
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Posts has been found"
@@ -34,45 +34,47 @@ export class BlogPostController {
     return existPosts;
   }
 
-  @Get(':postId')
+  @Get('/:postId')
   @ApiResponse({
     type: CreatedPostRdo,
     status: HttpStatus.OK,
     description: "Post has been found"
   })
-  async show(@Param('postId') postId: number){
+  async show(@Param('postId') postId: string){
     const existPost = await this.blogPostService.getPost(postId);
-
     // return fillObject(CreatedPostRdo, existPost);
     return existPost;
   }
 
 
-
-
-  @Patch(':postId')
+  @Patch('/:postId')
   @ApiResponse({
     type: CreatePostDto,
     status: HttpStatus.OK,
     description: 'Post has been updated'
   })
-  async update(@Param('postId') postId: number, @User() userId: string, @Body() dto: CreatePostDto ) {
-    const existPost = await this.blogPostService.update(postId, userId, dto );
-    return fillObject(CreatedPostRdo, existPost);
+  async update(
+    @Param('postId') postId: string,
+    @Body() dto: CreatePostDto ) {
+    const id = parseInt(postId, 10);
+    const updatedPost = await this.blogPostService.update(id, dto );
+    return updatedPost;
+    // return fillObject(CreatedPostRdo, updatedPost);
   }
 
-  @Delete(':postId')
+  @Delete('/:postId')
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'Post has been deleted'
   })
-  async delete(@Param('postId') postId: number, @User() userId: string): Promise <void>{
-    this.blogPostService.delete(postId, userId);
-    this.blogCommentService.deleteByPostId(postId);
+  async delete(@Param('postId') postId: string): Promise <void>{
+    const id = parseInt(postId, 10);
+    await this.blogPostService.delete(id);
+    // await this.blogCommentService.deleteByPostId(postId);
 
   }
 
-  @Post(':postId/repost')
+  @Post('/:postId/repost')
   @ApiResponse({
    status: HttpStatus.OK,
    description: 'Post has been reposted'

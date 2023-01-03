@@ -1,5 +1,6 @@
 import { PostCategory } from './post-category.types';
 import { PostContent } from './post-content.types';
+import { Comment } from './comment.interface';
 
 
 export interface Post {
@@ -10,8 +11,9 @@ export interface Post {
   postCategory: PostCategory ;
   isDraft: boolean;
   isRepost?: boolean;
-  tagList?: string[];
+  tagsList?: string[];
   commentsCount: number;
+  comments?: Comment[];
   repostsCount: number;
   likesCount: number;
   createdAt?: Date;

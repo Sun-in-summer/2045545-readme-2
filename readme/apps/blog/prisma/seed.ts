@@ -20,11 +20,11 @@ async function fillDb() {
         create: [
           {
             userId: 'user1',
-            text: "Thecomment from user1 for the post #1"
+            commentText: "Thecomment from user1 for the post #1"
           },
           {
             userId: 'user2',
-            text: "The comment from user2 for the post #1"
+            commentText: "The comment from user2 for the post #1"
           }
         ]
       },
@@ -53,11 +53,11 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            text: "The comment from user5 for the post #2"
+            commentText: "The comment from user5 for the post #2"
           },
           {
             userId: 'user7',
-            text: "This comment from user7 for the post #2"
+            commentText: "This comment from user7 for the post #2"
           }
         ]
       },
@@ -81,11 +81,11 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            text: "This comment from user5 for publication #3"
+            commentText: "This comment from user5 for publication #3"
           },
           {
             userId: 'user7',
-            text: "This comment from user7 for publication #3"
+            commentText: "This comment from user7 for publication #3"
           }
         ]
       },

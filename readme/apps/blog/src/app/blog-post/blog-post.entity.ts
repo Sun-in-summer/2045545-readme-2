@@ -1,5 +1,5 @@
 import { Entity } from '@readme/core';
-import {Post,  PostCategory,  PostContent} from '@readme/shared-types'
+import {Post,  PostCategory,  PostContent, Comment} from '@readme/shared-types'
 
 export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   public postId?: number;
@@ -13,8 +13,9 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   public createdAt?: Date;
   public updatedAt?: Date;
   public publishedAt: Date;
-  public tagList?: string[];
+  public tagsList?: string[];
   public commentsCount: number;
+  public comments: Comment[];
   public repostsCount: number;
   public likesCount: number;
 
@@ -25,7 +26,9 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   }
 
   public toObject() {
-    return {...this};
+    return {
+      ...this
+    }
   }
 
 
@@ -37,8 +40,9 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
     this.originalUserId = blogPost.originalUserId || blogPost.userId;
     this.postCategory =blogPost.postCategory,
     this.isDraft = blogPost.isDraft || true,
-    this.tagList= blogPost.tagList,
+    this.tagsList= blogPost.tagsList,
     this.commentsCount= blogPost.commentsCount,
+    this.comments= blogPost.comments,
     this.repostsCount= blogPost.repostsCount,
     this.likesCount= blogPost.likesCount,
     this.isRepost= blogPost.isRepost,
@@ -47,8 +51,6 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
     this.publishedAt = new Date(),
     this.postContent =blogPost.postContent;
     this.isDraft = blogPost.isDraft,
-    this.isRepost = blogPost.isRepost || false,
-    this.tagList =  blogPost.tagList
-
+    this.isRepost = blogPost.isRepost || false
   }
 }

@@ -12,7 +12,7 @@ export class CreatePostDto {
   @ApiProperty({
     description: 'The list of the tags.',
   })
-  public tagList?: string[];
+  public tagsList?: string[];
 
 
   @ApiProperty({

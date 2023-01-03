@@ -4,7 +4,7 @@ export class BlogCommentEntity implements Comment {
   public commentText: string;
   public postId: number;
   public userId: string;
-  public commentId?: string;
+  public commentId?: number;
 
   constructor (blogComment: Comment) {
     this.fillEntity(blogComment);
@@ -19,8 +19,7 @@ export class BlogCommentEntity implements Comment {
   public fillEntity(blogComment: Comment) {
     this.commentText = blogComment.commentText,
     this.postId = blogComment.postId,
-    this.userId = blogComment.userId,
-    this.commentId = blogComment.commentId;
+    this.userId = blogComment.userId
   }
 
 }

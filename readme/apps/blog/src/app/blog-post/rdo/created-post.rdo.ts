@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { PostContent, PostCategory } from '@readme/shared-types';
+import { PostContent, PostCategory, Comment } from '@readme/shared-types';
 
 
 
@@ -32,7 +32,7 @@ export class CreatedPostRdo {
   @ApiProperty({
     description: 'The list of the tags.',
   })
-  public tagList?: string[];
+  public tagsList?: string[];
 
 
   @ApiProperty({
@@ -89,6 +89,12 @@ export class CreatedPostRdo {
     example: '8',
   })
   public repostsCount: number;
+
+  @ApiProperty({
+    description: 'comments to the post',
+    example: 'The comment1  to the post #2',
+  })
+  public comments: Comment[]
 
 
 }
