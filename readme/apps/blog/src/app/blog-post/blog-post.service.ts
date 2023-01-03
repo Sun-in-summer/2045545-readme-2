@@ -61,9 +61,9 @@ export class BlogPostService {
     return await this.blogPostRepository.find()
   }
 
-  async getPost(postId: number): Promise <Post> {
-
-    const post =  await this.blogPostRepository.findById(postId);
+  async getPost(postId: string): Promise <Post> {
+    const id = parseInt(postId, 10);
+    const post =  await this.blogPostRepository.findById(id);
     return post;
 
   }

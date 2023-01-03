@@ -30,28 +30,13 @@ model Post {
   publishedAt    DateTime     @default(now())
   userId         String
   originalUserId String
-  likes          Like[]
+  likes          String[]
   likesCount     Int          @default(0)
   comments       Comment[]
   commentsCount  Int          @default(0)
   repostsCount   Int          @default(0)
   isRepost       Boolean      @default(false)
-  tags           Tag[]
-}
-
-model Like {
-  userId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-
-  @@id([userId, postId])
-}
-
-model Tag {
-  name String @id
-  post Post[]
+  tagsList       String[]
 }
 
 model Comment {

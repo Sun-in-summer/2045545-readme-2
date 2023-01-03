@@ -1,3 +1,4 @@
+import { PostCategory } from './post-category.types';
 import { PostContent } from './post-content.types';
 
 
@@ -6,7 +7,7 @@ export interface Post {
   originalPostId?: number;
   userId: string;
   originalUserId?: string;
-  postCategory: string ;
+  postCategory: PostCategory ;
   isDraft: boolean;
   isRepost?: boolean;
   tagList?: string[];

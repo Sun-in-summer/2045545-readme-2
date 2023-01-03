@@ -28,16 +28,11 @@ async function fillDb() {
           }
         ]
       },
-      tags: {
-        create: [
-          {
-            name: 'someTag#1',
-          },
-          {
-            name: 'someTag#2',
-          }
+      tagsList: [
+         'someTag#1',
+          'someTag#2',
         ]
-      }
+
     }
   });
   await prisma.post.upsert({
@@ -66,18 +61,9 @@ async function fillDb() {
           }
         ]
       },
-      tags: {
-        create: [
-          {
-            name: 'someTag#3',
-          },
-          {
-            name: 'someTag#4',
-          }
-        ]
+      tagsList: ['someTag#3','someTag#4'],
       }
-    }
-  });
+    });
   await prisma.post.upsert({
     where: { id: 3 },
     update: {},
@@ -103,16 +89,7 @@ async function fillDb() {
           }
         ]
       },
-      tags: {
-        create: [
-          {
-            name: 'someTag#5',
-          },
-          {
-            name: 'someTag#6',
-          }
-        ]
-      }
+      tagsList: [ 'someTag#5',  'someTag#6'   ]
     }
   });
   console.info(' Database is filled by seeding');

@@ -19,8 +19,8 @@ export class BlogPostController {
   @HttpCode(HttpStatus.CREATED)
   async create( @Body()dto: CreatePostDto ) {  //@User('userId') userId: string
     const post = await this.blogPostService.create(dto);
-    return fillObject(CreatedPostRdo, post);
-    // return post;
+    // return fillObject(CreatedPostRdo, post);
+    return post;
   }
 
   @Get()
@@ -30,8 +30,8 @@ export class BlogPostController {
   })
   async showAllPosts(){
     const existPosts = await this.blogPostService.show();
-    return fillObject(CreatedPostRdo, existPosts)
-    // return existPosts;
+    // return fillObject(CreatedPostRdo, existPosts)
+    return existPosts;
   }
 
   @Get(':postId')
@@ -43,8 +43,8 @@ export class BlogPostController {
   async show(@Param('postId') postId: number){
     const existPost = await this.blogPostService.getPost(postId);
 
-    return fillObject(CreatedPostRdo, existPost);
-    // return existPost;
+    // return fillObject(CreatedPostRdo, existPost);
+    return existPost;
   }
 
 

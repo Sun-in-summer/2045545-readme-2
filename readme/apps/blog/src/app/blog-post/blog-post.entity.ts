@@ -1,12 +1,12 @@
 import { Entity } from '@readme/core';
-import {Post,  PostContent} from '@readme/shared-types'
+import {Post,  PostCategory,  PostContent} from '@readme/shared-types'
 
 export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   public postId?: number;
   public originalPostId: number;
   public userId: string;
   public originalUserId: string;
-  public postCategory: string; ////
+  public postCategory: PostCategory; ////
   public postContent: PostContent;
   public isDraft: boolean;
   public isRepost: boolean;

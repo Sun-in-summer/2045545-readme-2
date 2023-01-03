@@ -4,11 +4,15 @@ POST http://localhost:3333/api/post HTTP/1.1
 Content-Type: application/json
 
 {
-
   "userId": "344be388-f805-4673-814b-d74222d53c9b",
-  "postCategory": "Video",
+  "postCategory": "Text",
   "isDraft": true,
-  "tagList": ["life", "video"]
+  "tagsList": ["life", "video"],
+  "postContent": {
+    "postTitle": "some title",
+    "previewText": "some preview text",
+    "postText": "some text"
+  }
 }
 
 ###
@@ -21,6 +25,6 @@ Content-Type: application/json
 ###
 ##Show one post
 
-GET http://localhost:3333/api/post/60d46dce-8d71-41a8-a4fc-ef8f40369cb6 HTTP/1.1
-Content-Type: application/json
+GET http://localhost:3333/api/post/7 HTTP/1.1
+
 

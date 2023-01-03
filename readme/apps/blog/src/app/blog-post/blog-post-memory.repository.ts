@@ -18,14 +18,14 @@ private repository: {[key:string]: Post} ={}
 
   public async create(item: BlogPostEntity): Promise<Post> {
     const entry = {...item.toObject(), _id: crypto.randomUUID()};
-    entry.postId = entry._id;
+    // entry.postId = entry._id;
     this.repository[entry._id] = entry;
     return {...entry};
   }
 
   public async update(id: string, item: BlogPostEntity): Promise<Post> {
-
-    this.repository[id]={...item.toObject(), postId: id}
+    const postId= parseInt(id, 10);
+    this.repository[id]={...item.toObject(), postId: postId}
     return this.findById(id);
   }
 
