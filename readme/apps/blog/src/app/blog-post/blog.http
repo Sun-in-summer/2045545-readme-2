@@ -24,11 +24,11 @@ Content-Type: application/json
 ###
 ##Show one post
 
-GET http://localhost:3333/api/post/1 HTTP/1.1
+GET http://localhost:3333/api/post/8 HTTP/1.1
 
 ### Delete post
 
-DELETE http://localhost:3333/api/post/2 HTTP/1.1
+DELETE http://localhost:3333/api/post/9 HTTP/1.1
 
 ### Update post
 PATCH http://localhost:3333/api/post/9 HTTP/1.1
