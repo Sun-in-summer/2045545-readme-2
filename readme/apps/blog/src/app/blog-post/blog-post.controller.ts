@@ -40,7 +40,7 @@ export class BlogPostController {
     status: HttpStatus.OK,
     description: "Post has been found"
   })
-  async show(@Param('postId') postId: string){
+  async show(@Param('postId') postId: number){
     const existPost = await this.blogPostService.getPost(postId);
     // return fillObject(CreatedPostRdo, existPost);
     return existPost;
@@ -54,10 +54,9 @@ export class BlogPostController {
     description: 'Post has been updated'
   })
   async update(
-    @Param('postId') postId: string,
+    @Param('postId') postId: number,
     @Body() dto: CreatePostDto ) {
-    const id = parseInt(postId, 10);
-    const updatedPost = await this.blogPostService.update(id, dto );
+    const updatedPost = await this.blogPostService.update(postId, dto );
     return updatedPost;
     // return fillObject(CreatedPostRdo, updatedPost);
   }
@@ -67,9 +66,8 @@ export class BlogPostController {
     status: HttpStatus.NO_CONTENT,
     description: 'Post has been deleted'
   })
-  async delete(@Param('postId') postId: string): Promise <void>{
-    const id = parseInt(postId, 10);
-    await this.blogPostService.delete(id);
+  async delete(@Param('postId') postId: number): Promise <void>{
+    await this.blogPostService.delete(postId);
     // await this.blogCommentService.deleteByPostId(postId);
 
   }

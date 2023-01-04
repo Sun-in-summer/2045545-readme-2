@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch } from '@nestjs/common';
 import { BlogCommentService } from './blog-comment.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedCommentRdo } from './rdo/created-comment.rdo';
@@ -30,9 +30,8 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async showByPostId(@Param('postId') postId: string){
-    const id = parseInt(postId, 10);
-    const existComments = await this.blogCommentService.getCommentsByPostId(id);
+  public async showByPostId(@Param('postId') postId: number){
+      const existComments = await this.blogCommentService.getCommentsByPostId(postId);
     // return fillObject(CreatedCommentRdo, existComment);
     return existComments;
   }
@@ -43,9 +42,8 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async getComment(@Param('commentId') commentId: string){
-    const id = parseInt(commentId, 10);
-    const existComment = await this.blogCommentService.getComment(id);
+  public async getComment(@Param('commentId') commentId: number){
+    const existComment = await this.blogCommentService.getComment(commentId);
     return existComment;
     // return fillObject(CreatedCommentRdo, existComment);
   }
@@ -55,9 +53,8 @@ export class BlogCommentController {
     status: HttpStatus.NO_CONTENT,
     description: "Comment has been deleted"
   })
-  public async delete(@Param('commentId') commentId: string){
-    const id = parseInt(commentId, 10);
-    return this.blogCommentService.delete(id);
+  public async delete(@Param('commentId') commentId: number){
+    return this.blogCommentService.delete(commentId);
   }
 
   @Patch('/comments/:commentId')
@@ -65,9 +62,9 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been updated"
   })
-  public async update(@Param('commentId') commentId: string, @Body() dto: CreateCommentDto){
-    const id = parseInt(commentId, 10);
-   const updatedComment = await this.blogCommentService.update(id, dto );
+  public async update(@Param('commentId') commentId: number, @Body() dto: CreateCommentDto){
+
+   const updatedComment = await this.blogCommentService.update(commentId, dto );
     // return fillObject(CreatedCommentRdo, existComment);
     return updatedComment;
   }
