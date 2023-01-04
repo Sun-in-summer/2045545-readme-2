@@ -96,11 +96,4 @@ export class CreatedPostRdo {
   })
   public comments: Comment[]
 
-
 }
-
-
-
-
-
-

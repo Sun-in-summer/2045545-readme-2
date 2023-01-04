@@ -1,12 +1,12 @@
 import {Prisma} from '@prisma/client';
 
-  type Text ={
+  type Text = {
     postTitle: string;
     previewText: string;
     postText: string;
   }
 
-  type Video ={
+  type Video = {
     postTitle: string;
     videoLink: string;
   }
@@ -16,19 +16,19 @@ import {Prisma} from '@prisma/client';
    quoteAuthor: string;
   }
 
-  type Photo ={
+  type Photo = {
       photoLink: string;
     }
 
 
-  type  Link ={
+  type  Link = {
     linkURL: string;
     linkDescription: string;
   }
 
   export type PostContent = Text | Video |Quote | Photo | Link | Prisma.JsonValue;
 
-  export const PostTypeObject ={////
+  export const PostTypeObject = {
     Video: 'Video',
     Text: 'Text',
     Quote: "Quote",
