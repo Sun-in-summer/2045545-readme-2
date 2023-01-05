@@ -1,10 +1,11 @@
-import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete, Query} from '@nestjs/common';
 import { BlogPostService } from './blog-post.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedPostRdo } from './rdo/created-post.rdo';
 import { fillObject } from '@readme/core';
 import { BlogCommentService } from '../blog-comment/blog-comment.service';
 import { CreatePostDto } from './dto/create-post.dto';
+import { BlogPostQuery } from './query/blog-post.query';
 
 
 @Controller('post')
@@ -27,9 +28,9 @@ export class BlogPostController {
     status: HttpStatus.OK,
     description: "Posts has been found"
   })
-  async showAllPosts(){
-    const existPosts = await this.blogPostService.show();
-    return fillObject(CreatedPostRdo, existPosts)
+  async showAllPosts(@Query () query: BlogPostQuery){
+    const posts = await this.blogPostService.getPosts(query);
+    return fillObject(CreatedPostRdo, posts)
   }
 
   @Get('/:postId')

@@ -1,16 +1,39 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { PostContent, PostCategory, Comment } from '@readme/shared-types';
+import { Comment } from '@readme/shared-types';
 import {Expose} from 'class-transformer';
+import { PostCategory } from '@prisma/client';
+import { PostContentDto } from '../dto/content/content.dto';
+import { VideoDto } from '../dto/content/video.dto';
+import { TextDto } from '../dto/content/text.dto';
+import { PhotoDto } from '../dto/content/photo.dto';
+import { QuoteDto } from '../dto/content/quote.dto';
+import { LinkDto } from '../dto/content/link.dto';
 
 
 
 export class CreatedPostRdo {
+
   @ApiProperty({
     description: "id of the post",
     example: '123',
   })
   @Expose()
-  public postId: number;
+  public id: number;
+
+  @Expose()
+  public video: VideoDto;
+
+  @Expose()
+  public text: TextDto;
+
+  @Expose()
+  public photo: PhotoDto;
+
+  @Expose()
+  public quote: QuoteDto;
+
+  @Expose()
+  public link: LinkDto;
 
   @ApiProperty({
     description: "Originals id of the post",
@@ -32,7 +55,7 @@ export class CreatedPostRdo {
     required: true,
   })
   @Expose()
-  public postContent: PostContent;
+  public postContent: PostContentDto;
 
   @ApiProperty({
     description: 'The list of the tags.',

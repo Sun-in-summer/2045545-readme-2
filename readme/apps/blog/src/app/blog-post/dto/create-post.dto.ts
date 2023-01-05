@@ -1,14 +1,8 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { PostCategory , PostContent} from '@readme/shared-types';
-import {  IsNotEmpty , IsOptional,  IsBoolean , IsMongoId,  ValidateNested} from 'class-validator';
+import {  IsOptional,  IsBoolean , IsMongoId,  ValidateNested} from 'class-validator';
+import { PostContentDto } from './content/content.dto';
 
 export class CreatePostDto {
- @ApiProperty({
-    description: 'The category of the post.',
-    required: true,
-  })
-  @IsNotEmpty()
-  public postCategory: PostCategory;
 
 
   @ApiProperty({
@@ -40,7 +34,7 @@ export class CreatePostDto {
     required: true
   })
   @ValidateNested()
-  public postContent: PostContent;
+  public postContent: PostContentDto;
 
 }
 

@@ -24,7 +24,22 @@ Content-Type: application/json
 ###
 ##Show one post
 
-GET http://localhost:3333/api/post/8 HTTP/1.1
+GET http://localhost:3333/api/post/1 HTTP/1.1
+
+###
+##Show posts of type Text
+
+GET http://localhost:3333/api/post?postCategory=Text HTTP/1.1
+
+###
+##Show posts with tag "someTag#4"
+
+GET http://localhost:3333/api/post?tag=someTag#4 HTTP/1.1
+
+###
+##Show posts of user2
+
+GET http://localhost:3333/api/post?userId=user2 HTTP/1.1
 
 ### Delete post
 
