@@ -48,7 +48,7 @@ export class AuthController {
     status: HttpStatus.OK,
     description: "User has been found"
   })
-  async show(@Param('id', MongoidValidationPipe) id: string,@Request() req){
+  async show(@Param('id', MongoidValidationPipe) id: string, @Request() req){
     console.log(req.user);
     const existedUser = await this.authService.getUser(id);
     return fillObject(UserRdo, existedUser);
