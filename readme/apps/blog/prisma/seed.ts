@@ -23,10 +23,6 @@ async function fillDb() {
           {
             userId: 'user1',
             commentText: "Thecomment from user1 for the post1"
-          },
-          {
-            userId: 'user2',
-            commentText: "The comment from user2 for the post1"
           }
         ]
       },
@@ -56,11 +52,19 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            commentText: "The comment from user5 for the post 2"
+            commentText: "The comment from user5 for the post2"
           },
           {
             userId: 'user7',
-            commentText: "This comment from user7 for the post 2"
+            commentText: "This comment from user7 for the post2"
+          },
+          {
+            userId: 'user15',
+            commentText: "The comment from user5 for the post2"
+          },
+          {
+            userId: 'user17',
+            commentText: "This comment from user7 for the post2"
           }
         ]
       },
@@ -86,11 +90,15 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            commentText: "This comment from user5 for publication 3"
+            commentText: "This comment from user5 for post3"
           },
           {
             userId: 'user7',
-            commentText: "This comment from user7 for publication 3"
+            commentText: "This comment from user7 for post3"
+          },
+          {
+            userId: 'user2',
+            commentText: "The comment from user2 for the post3"
           }
         ]
       },
@@ -115,11 +123,35 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            commentText: "The comment from user5 for the post 4"
+            commentText: "The comment from user5 for the post4"
           },
           {
             userId: 'user7',
-            commentText: "This comment from user7 for the post 4"
+            commentText: "This comment from user7 for the post4"
+          },
+          {
+            userId: 'user15',
+            commentText: "The comment from user15 for the post4"
+          },
+          {
+            userId: 'user17',
+            commentText: "This comment from user17 for the post4"
+          },
+          {
+            userId: 'user5',
+            commentText: "The comment2 from user5 for the post4"
+          },
+          {
+            userId: 'user7',
+            commentText: "This comment2 from user7 for the post4"
+          },
+          {
+            userId: 'user15',
+            commentText: "The comment2 from user15 for the post4"
+          },
+          {
+            userId: 'user17',
+            commentText: "This comment2 from user17 for the post4"
           }
         ]
       },
@@ -145,11 +177,11 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            commentText: "The comment from user5 for the post 5"
+            commentText: "The comment from user5 for the post5"
           },
           {
             userId: 'user7',
-            commentText: "This comment from user7 for the post 5"
+            commentText: "This comment from user7 for the post5"
           }
         ]
       },
@@ -175,11 +207,15 @@ async function fillDb() {
         create: [
           {
             userId: 'user5',
-            commentText: "This comment from user5 for publication 6"
+            commentText: "This comment from user5 for post6"
           },
           {
             userId: 'user7',
-            commentText: "This comment from user7 for publication 6"
+            commentText: "This comment from user7 for post6"
+          },
+          {
+            userId: 'user27',
+            commentText: "This comment from user27 for post6"
           }
         ]
       },

@@ -32,14 +32,35 @@ GET http://localhost:3333/api/post/1 HTTP/1.1
 GET http://localhost:3333/api/post?postCategory=Text HTTP/1.1
 
 ###
-##Show posts with tag "someTag#4"
+##Show posts with tag "someTag4"
 
-GET http://localhost:3333/api/post?tag=someTag#4 HTTP/1.1
+GET http://localhost:3333/api/post?tag=someTag4 HTTP/1.1
 
 ###
 ##Show posts of user2
 
 GET http://localhost:3333/api/post?userId=user2 HTTP/1.1
+
+###
+##Show posts with limit - 2 posts only
+
+GET http://localhost:3333/api/post?limit=2 HTTP/1.1
+
+###
+##Show posts with limit - 2 posts only and from old to new (opposite  sort direction)
+
+GET http://localhost:3333/api/post?limit=2&sortDirection=asc HTTP/1.1
+
+###
+##Show posts sorted by comments quantity
+
+GET http://localhost:3333/api/post?sortBy=comments HTTP/1.1
+
+###
+##Show posts from page 2 when limit is 2
+
+GET http://localhost:3333/api/post?limit=2&page=1 HTTP/1.1
+
 
 ### Delete post
 
