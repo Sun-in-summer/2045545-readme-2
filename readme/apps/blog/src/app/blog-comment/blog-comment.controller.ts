@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch, Query } from '@nestjs/common';
 import { BlogCommentService } from './blog-comment.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedCommentRdo } from './rdo/created-comment.rdo';
@@ -29,8 +29,12 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async showByPostId(@Param('postId') postId: number){
-    const existComments = await this.blogCommentService.getCommentsByPostId(postId);
+  public async showByPostId(
+      @Param('postId') postId: number,
+      @Query ('page') page: number,
+      @Query ('commentsCount') commentsCount: number
+  ){
+    const existComments = await this.blogCommentService.getCommentsByPostId(postId, page, commentsCount);
     return fillObject(CreatedCommentRdo, existComments);
   }
 
