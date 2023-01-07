@@ -15,14 +15,19 @@ export function getMailConfig(): MailerAsyncOptions {
   return {
     useFactory: async (configService: ConfigService) => ({
       transport: {
-      host: configService.get<string>('mail.smtpServer'),
-      port: configService.get<number>('mail.port'),
-      secure: false,
-      ignoreTLS: true,
+        host: configService.get<string>('mail.smtpServer'),
+        port: configService.get<number>('mail.port'),
+        secure: false,
+        ignoreTLS: true,
+        auth: {
+            user: configService.get<string>('mail.email'),
+            pass: configService.get<string>('mail.password')
+        }
     },
       defaults: {
         from: configService.get<string>('mail.email')
       },
+      preview: true,
 
     }),
     inject: [ConfigService]
