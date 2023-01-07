@@ -6,7 +6,7 @@ import { getMailConfig } from 'apps/notify/config/mail.config';
 
 @Module({
   imports: [
-    MailerModule.forRoot(getMailConfig()),
+    MailerModule.forRootAsync(getMailConfig()),
   ],
   providers: [MailService],
   controllers: [MailController],
