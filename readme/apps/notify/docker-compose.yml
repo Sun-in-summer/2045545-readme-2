@@ -22,5 +22,32 @@ services:
       - '5025:5025'
       - '1083:5080'
 
+  mongodb:
+    image: mongo
+    container_name: readme.notify.mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: readme-notify
+    ports:
+      - 27018:27017
+    volumes:
+      - ./db:data/db
+    healthcheck:
+      test: echo 'db.runCommand('ping').ok' | mongosh localhost:27017/readme-notify --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  mongo-express:
+    image: mongo-express
+    container_name: readme.notify.mongo-express
+    ports:
+      - 1085:8081
+    environment:
+      ME_CONFIG_MOGNODB_ADMINUSERNAME: admin
+      ME_CONFIG_MOGNODB_ADMINPASSWORD: test
+      ME_CONFIG_MOGNODB_URL: mongodb://admin:test@mongodb:27017/
+
 
 
