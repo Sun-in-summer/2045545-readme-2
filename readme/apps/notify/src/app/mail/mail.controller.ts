@@ -1,16 +1,21 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
-import { Controller,  Get , Body, HttpStatus} from '@nestjs/common';
+import { Controller,  Get , Body, HttpStatus, Inject} from '@nestjs/common';
 import { MailService } from './mail.service';
 import { SendEmailDto } from '../dto/sendEmail.dto';
+import { ConfigType } from '@nestjs/config';
+import { mailOptions } from 'apps/notify/config/mail.config';
 
 
 
-@ApiTags('notify')
-@Controller('notify')
+@ApiTags('mail')
+@Controller('mail')
 export class MailController {
 
   constructor (
-    private readonly notifyService: MailService
+    private readonly notifyService: MailService,
+
+    @Inject(mailOptions.KEY)
+    private readonly mailConfig: ConfigType<typeof mailOptions>
   ){}
 
   @Get('/')

@@ -1,23 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MailController } from './mail.controller';
+import { MailService } from './mail.service';
+import { getMailConfig } from 'apps/notify/config/mail.config';
 
 @Module({
   imports: [
-    MailerModule.forRoot({
-      // transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-      // defaults: {
-      //   from: '"nest-modules" <modules@nestjs.com>',
-      // },
-      // template: {
-      //   dir: __dirname + '/templates',
-      //   options: {
-      //     strict: true,
-      //   },
-      // },
-    }),
+    MailerModule.forRoot(getMailConfig()),
   ],
-  providers: [],
+  providers: [MailService],
   controllers: [MailController],
   exports: [],
 })
