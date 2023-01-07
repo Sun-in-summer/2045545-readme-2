@@ -1,5 +1,5 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
-import { Controller,  Post , Body, HttpStatus} from '@nestjs/common';
+import { Controller,  Get , Body, HttpStatus} from '@nestjs/common';
 import { MailService } from './mail.service';
 import { SendEmailDto } from '../dto/sendEmail.dto';
 
@@ -13,7 +13,7 @@ export class MailController {
     private readonly notifyService: MailService
   ){}
 
-  @Post('/')
+  @Get('/')
   @ApiResponse(
     {status: HttpStatus.OK, description: 'The emails were successfully sent out'}
   )

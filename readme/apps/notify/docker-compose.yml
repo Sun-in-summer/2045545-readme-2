@@ -32,7 +32,7 @@ services:
     ports:
       - 27018:27017
     volumes:
-      - ./db:data/db
+      - ./db:/data/db
     healthcheck:
       test: echo 'db.runCommand('ping').ok' | mongosh localhost:27017/readme-notify --quiet
       interval: 10s
