@@ -1,16 +1,16 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
 import { Controller,  Post , Body, HttpStatus} from '@nestjs/common';
-import { NotifyService } from './mail.service';
+import { MailService } from './mail.service';
 import { SendEmailDto } from '../dto/sendEmail.dto';
 
 
 
 @ApiTags('notify')
 @Controller('notify')
-export class NotifyController {
+export class MailController {
 
   constructor (
-    private readonly notifyService: NotifyService
+    private readonly notifyService: MailService
   ){}
 
   @Post('/')

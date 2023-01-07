@@ -4,7 +4,7 @@ import { SendEmailDto } from '../dto/sendEmail.dto';
 
 
 @Injectable()
-export class NotifyService {
+export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   public sendMail(dto: SendEmailDto)   {
