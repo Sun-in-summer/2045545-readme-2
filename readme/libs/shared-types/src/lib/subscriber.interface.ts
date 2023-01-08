@@ -1,7 +1,7 @@
 export interface Subscriber {
   id?: string;
   email: string;
-  firstanme: string;
+  firstname: string;
   lastname: string;
   userId: string;
 }

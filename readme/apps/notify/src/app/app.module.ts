@@ -4,6 +4,9 @@ import { NOTIFY_SERVICE_ENV_PATH } from './app.constant';
 import { getMongoDbConfig, mongoDbOptions } from '../../config/mongodb.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import {validateEnvironments} from './env.validation';
+import { rabbitMqOptions } from 'apps/notify/config/rabbitmq.config';
+import { EmailSubscriberModule } from './email-subscriber/email-subscriber.module';
+
 
 
 @Module({
@@ -12,10 +15,11 @@ import {validateEnvironments} from './env.validation';
       cache: true,
       isGlobal: true,
       envFilePath: NOTIFY_SERVICE_ENV_PATH,
-      load: [mongoDbOptions],
+      load: [mongoDbOptions, rabbitMqOptions],
       validate: validateEnvironments,
     }),
     MongooseModule.forRootAsync(getMongoDbConfig()),
+    EmailSubscriberModule
   ],
   controllers: [],
   providers: [],

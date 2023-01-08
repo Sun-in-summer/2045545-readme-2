@@ -1,9 +1,10 @@
-import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch, Query } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch, Query, DefaultValuePipe } from '@nestjs/common';
 import { BlogCommentService } from './blog-comment.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedCommentRdo } from './rdo/created-comment.rdo';
 import { fillObject } from '@readme/core';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { DEFAULT_COMMENTS_COUNT, DEFAULT_PAGE } from './blog-comment.constant';
 
 @Controller('comment')///
 export class BlogCommentController {
@@ -31,8 +32,8 @@ export class BlogCommentController {
   })
   public async showByPostId(
       @Param('postId') postId: number,
-      @Query ('page') page: number,
-      @Query ('commentsCount') commentsCount: number
+      @Query ('page', new DefaultValuePipe(DEFAULT_PAGE)) page: number,
+      @Query ('commentsCount', new DefaultValuePipe(DEFAULT_COMMENTS_COUNT)) commentsCount: number
   ){
     const existComments = await this.blogCommentService.getCommentsByPostId(postId, page, commentsCount);
     return fillObject(CreatedCommentRdo, existComments);

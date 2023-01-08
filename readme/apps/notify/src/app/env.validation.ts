@@ -26,6 +26,28 @@ class EnvironmentsConfig {
 
   @IsString({message: EnvValidationMessage.DBBaseAuthRequired})
   public MONGO_AUTH_BASE: string
+
+
+  @IsString({
+    message: EnvValidationMessage.RMQUserRequired
+  })
+  public RABBIT_USER: string;
+
+  @IsString({
+    message: EnvValidationMessage.RMQPasswordRequired
+  })
+  public RABBIT_PASSWORD: string;
+
+  @IsString({
+    message: EnvValidationMessage.RMQHostRequired
+  })
+  public RABBIT_HOST: string;
+
+  @IsString({
+    message: EnvValidationMessage.RMQSubscriberQueue
+  })
+  public RABBIT_NOTIFY_SERVICE_QUEUE: string;
+
 }
 
 

@@ -45,9 +45,9 @@ services:
     ports:
       - 1085:8081
     environment:
-      ME_CONFIG_MOGNODB_ADMINUSERNAME: admin
-      ME_CONFIG_MOGNODB_ADMINPASSWORD: test
-      ME_CONFIG_MOGNODB_URL: mongodb://admin:test@mongodb:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: test
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@mongodb:27017/
 
 
 

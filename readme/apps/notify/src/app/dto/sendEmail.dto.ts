@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import { IsEmail, IsString, IsNotEmpty ,  MaxLength, IsOptional } from 'class-validator';
-import { RECEIPIENT_USER_EMAIL_NOT_VALID, SENDER_USER_EMAIL_NOT_VALID } from '../mail/mail.constant';
+import { RECEIPIENT_USER_EMAIL_NOT_VALID, SENDER_USER_EMAIL_NOT_VALID } from '../email-subscriber/email-subscriber.constant';
 
 export class SendEmailDto {
   @ApiProperty({
@@ -14,6 +14,18 @@ export class SendEmailDto {
     {message: RECEIPIENT_USER_EMAIL_NOT_VALID}
   )
   public to: string;
+
+  @ApiProperty({
+    description: 'Firstname of user', //// List or 1 receiver?
+    example: 'Maria'
+  })
+  public firstname
+
+  @ApiProperty({
+    description: 'Lastname of user', //// List or 1 receiver?
+    example: 'Ivanova'
+  })
+  public lastname
 
 
   @ApiProperty({
