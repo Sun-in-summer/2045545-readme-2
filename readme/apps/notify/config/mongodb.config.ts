@@ -2,7 +2,7 @@ import {ConfigService, registerAs } from '@nestjs/config';
 import {MongooseModuleAsyncOptions} from '@nestjs/mongoose';
 import { getMongoConnectionString } from '@readme/core';
 
-export const mongoDbOptions=  registerAs('database', () => ({
+export const mongoDbOptions =  registerAs('database', () => ({
   database: process.env.MONGO_DB,
   host: process.env.MONGO_HOST,
   port: parseInt(process.env.MONGO_PORT, 10),

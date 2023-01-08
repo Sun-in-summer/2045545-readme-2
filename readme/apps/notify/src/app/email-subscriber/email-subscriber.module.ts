@@ -4,7 +4,7 @@ import { EmailSubscriberService } from './email-subscriber.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailSubscriberModel, EmailSubscriberSchema } from './email-subscriber.model';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
-import { MailModule } from './mail/mail.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [

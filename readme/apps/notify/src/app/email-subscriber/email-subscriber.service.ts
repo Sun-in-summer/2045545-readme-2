@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSubscriberDto } from '../dto/create-subscriber.dto';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
 import { EMAIL_SUBSCRIBER_EXISTS } from './email-subscriber.constant';
-import { MailService } from './mail/mail.service';
+import { MailService } from '../mail/mail.service';
 import { EmailSubscriberEntity } from './email-subscriber.entity';
 
 

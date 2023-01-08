@@ -1,14 +1,17 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { User, UserRole } from '@readme/shared-types';
+import { CommandEvent, User, UserRole } from '@readme/shared-types';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as dayjs from 'dayjs';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from './auth.constant';
-import databaseConfig from '../../config/database.config';
-import {ConfigType} from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ClientProxy } from '@nestjs/microservices';
+import { createEvent } from '@readme/core';
+// import databaseConfig from '../../config/database.config';
+// import {ConfigType} from '@nestjs/config';
+
 
 
 @Injectable()
@@ -17,8 +20,10 @@ export class AuthService {
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
 
-    @Inject(databaseConfig.KEY)
-    private readonly mongoConfig: ConfigType<typeof databaseConfig>,
+    // @Inject(databaseConfig.KEY)
+    // private readonly mongoConfig: ConfigType<typeof databaseConfig>,
+
+    @Inject('RABBITMQ_SERVICE') private readonly rabbitClient: ClientProxy
   ){}
 
   async register(dto: CreateUserDto){
@@ -38,8 +43,20 @@ export class AuthService {
     const userEntity = await  new BlogUserEntity(blogUser)
       .setPassword(password);
 
-    return this.blogUserRepository
+    const createdUser = await this.blogUserRepository
       .create(userEntity);
+
+      this.rabbitClient.emit(
+        createEvent(CommandEvent.AddSubscriber),
+        {
+          id: createdUser._id,
+          firstname: createdUser.firstname,
+          lastname: createdUser.lastname,
+          email: createdUser.email,
+        }
+      )
+
+      return createdUser;
   }
 
   async verifyUser(dto: LoginUserDto){

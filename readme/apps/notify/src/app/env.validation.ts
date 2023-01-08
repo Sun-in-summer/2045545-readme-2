@@ -52,8 +52,10 @@ class EnvironmentsConfig {
 
 
 export function validateEnvironments(config: Record<string, unknown>) {
-  const environmentsConfig = plainToInstance(EnvironmentsConfig, config, {enableImplicitConversion: true},
-    );
+  const environmentsConfig = plainToInstance(
+    EnvironmentsConfig,
+    config,
+    {enableImplicitConversion: true},);
 
     const errors = validateSync(
   environmentsConfig, {
@@ -65,7 +67,7 @@ if (onErrorResumeNext.length >0 ) {
   throw new Error (errors.toString());
 
 }
-return EnvironmentsConfig;
+return environmentsConfig;
 
 }
 
