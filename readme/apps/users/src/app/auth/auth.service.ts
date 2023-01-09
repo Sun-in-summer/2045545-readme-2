@@ -9,9 +9,6 @@ import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from 
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@readme/core';
-// import databaseConfig from '../../config/database.config';
-// import {ConfigType} from '@nestjs/config';
-
 
 
 @Injectable()
@@ -19,9 +16,6 @@ export class AuthService {
   constructor (
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
-
-    // @Inject(databaseConfig.KEY)
-    // private readonly mongoConfig: ConfigType<typeof databaseConfig>,
 
     @Inject('RABBITMQ_SERVICE') private readonly rabbitClient: ClientProxy
   ){}
@@ -47,7 +41,7 @@ export class AuthService {
       .create(userEntity);
 
       this.rabbitClient.emit(
-        createEvent(CommandEvent.AddSubscriber),
+        createEvent(CommandEvent.AddSubscriber),////
         {
           id: createdUser._id,
           firstname: createdUser.firstname,

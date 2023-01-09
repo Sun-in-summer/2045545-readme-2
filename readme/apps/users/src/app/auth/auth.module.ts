@@ -9,6 +9,7 @@ import { getJwtConfig } from '../../config/jwt.config';
 import { PassportModule } from '@nestjs/passport';
 import { ClientsModule } from '@nestjs/microservices';
 import { getRabbitMqConfig } from '../../config/rabbitmq.config';
+import { RABBITMQ_SERVICE } from './auth.constant';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { getRabbitMqConfig } from '../../config/rabbitmq.config';
     }),
     ClientsModule.registerAsync([
       {
-        name: 'RABBITMQ_SERVICE',
+        name: RABBITMQ_SERVICE,
         useFactory: getRabbitMqConfig,
         inject: [ConfigService],
       }
