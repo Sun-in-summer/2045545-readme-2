@@ -5,7 +5,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import * as dayjs from 'dayjs';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
-import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from './auth.constant';
+import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, RABBITMQ_SERVICE} from './auth.constant';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@readme/core';
@@ -17,7 +17,7 @@ export class AuthService {
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
 
-    @Inject('RABBITMQ_SERVICE') private readonly rabbitClient: ClientProxy
+    @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy
   ){}
 
   async register(dto: CreateUserDto){

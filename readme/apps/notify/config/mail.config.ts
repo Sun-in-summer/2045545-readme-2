@@ -7,7 +7,7 @@ export const mailOptions=  registerAs('mail', () => ({
   host: process.env.MAIL_SMTP_HOST,
   port: process.env.MAIL_SMTP_PORT,
   from: process.env.MAIL_FROM,
-  user: process.env.MAIL_USER,
+  user: process.env.MAIL_USER_NAME,
   password: process.env.MAIL_USER_PASSWORD,
 }));
 
