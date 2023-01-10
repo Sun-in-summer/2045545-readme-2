@@ -6,6 +6,8 @@ import { BlogPostEntity } from '../blog-post/blog-post.entity';
 import {  CreatePostDto } from './dto/create-post.dto';
 import * as dayjs from 'dayjs';
 import {  POST_NOT_FOUND } from './blog-post.constant';
+import { BlogPostQuery } from './query/blog-post.query';
+
 
 @Injectable()
 export class BlogPostService {
@@ -23,7 +25,8 @@ export class BlogPostService {
       commentsCount: 0,
       repostsCount: 0,
       likesCount: 0,
-      comments: []
+      comments: [],
+      postCategory: dto.postContent.postCategory
     });
 
     return this.blogPostRepository.create(postEntity);
@@ -58,13 +61,12 @@ export class BlogPostService {
     return await this.blogPostRepository.destroy(postId)
   }
 
-  async show(): Promise <Post[]>{
-    return await this.blogPostRepository.find()
+  async getPosts(query: BlogPostQuery): Promise <Post[]>{
+    return await this.blogPostRepository.find(query)
   }
 
-  async getPost(postId: string): Promise <Post> {
-    const id = parseInt(postId, 10);
-    const post =  await this.blogPostRepository.findById(id);
+  async getPost(postId: number): Promise <Post> {
+    const post =  await this.blogPostRepository.findById(postId);
     return post;
 
   }

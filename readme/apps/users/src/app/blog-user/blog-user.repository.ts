@@ -21,9 +21,9 @@ export class BlogUserRepository implements CRUDRepository<BlogUserEntity, string
     this.blogUserModel.deleteOne({id});
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public async findById(_id: string): Promise<User | null> {
     return this.blogUserModel
-      .findOne({id})
+      .findById({_id})
       .exec();
   }
 

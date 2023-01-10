@@ -23,7 +23,6 @@ model Post {
   id             Int          @id @default(autoincrement())
   originalPostId Int          @default(autoincrement())
   postCategory   PostCategory
-  postContent    Json
   isDraft        Boolean
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @default(now())
@@ -37,6 +36,11 @@ model Post {
   isRepost       Boolean      @default(false)
   tagsList       String[]
   comments       Comment[]
+  link           Link?
+  photo          Photo?
+  quote          Quote?
+  text           Text?
+  video          Video?
 }
 
 model Comment {
@@ -47,4 +51,54 @@ model Comment {
   updatedAt   DateTime @default(now())
   commentText String
   userId      String
+}
+
+model Link {
+  post            Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId          Int          @id
+  postCategory    PostCategory @default(Link) @ignore
+  linkURL         String
+  linkDescription String?
+
+  @@unique([postId])
+}
+
+model Photo {
+  post         Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       Int          @id
+  postCategory PostCategory @default(Photo) @ignore
+  photoLink    String
+
+  @@unique([postId])
+}
+
+model Quote {
+  post         Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       Int          @id
+  postCategory PostCategory @default(Quote) @ignore
+  quoteText    String
+  quoteAuthor  String
+
+  @@unique([postId])
+}
+
+model Text {
+  post         Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       Int          @id
+  postCategory PostCategory @default(Text) @ignore
+  postTitle    String
+  previewText  String
+  postText     String
+
+  @@unique([postId])
+}
+
+model Video {
+  post         Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       Int          @id
+  postCategory PostCategory @default(Video) @ignore
+  postTitle    String
+  videoLink    String
+
+  @@unique([postId])
 }

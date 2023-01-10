@@ -57,8 +57,8 @@ export class BlogCommentService {
 
   }
 
-  async getCommentsByPostId(postId: number) : Promise <Comment[]> {
-    return  this.blogCommentRepository.find(postId);
+  async getCommentsByPostId(postId: number, page?: number, commentsCount?: number) : Promise <Comment[]> {
+    return  this.blogCommentRepository.find(postId, page, commentsCount);
 
   }
 

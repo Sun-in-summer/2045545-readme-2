@@ -1,11 +1,13 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
-import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param, UseGuards, Request} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillObject } from '@readme/core';
 import { UserRdo } from './rdo/user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { MongoidValidationPipe } from '../pipes/mongoid-validation.pipe';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,17 +37,19 @@ export class AuthController {
     description: "Password or Login is wrong."
   })
   async login(@Body() dto: LoginUserDto){
-    const verifiedUser = await this.authService.verifyUser(dto);
-    return fillObject(LoggedUserRdo, verifiedUser);
+    const user = await this.authService.verifyUser(dto);
+    return this.authService.loginUser(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
     description: "User has been found"
   })
-  async show(@Param('id') id: string){
+  async show(@Param('id', MongoidValidationPipe) id: string, @Request() req){
+    console.log(req.user);
     const existedUser = await this.authService.getUser(id);
     return fillObject(UserRdo, existedUser);
   }

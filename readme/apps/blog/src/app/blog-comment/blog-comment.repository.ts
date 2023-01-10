@@ -37,10 +37,15 @@ export class BlogCommentRepository implements CRUDRepository<BlogCommentEntity, 
     });
   }
 
-  public find(id: number): Promise<Comment[]> {
+  public find(id: number, page?: number, commentsCount?: number): Promise<Comment[]> {
     return this.prisma.comment.findMany({
       where: {
         postId: id
+      },
+      take: commentsCount,
+      skip: (page-1)*commentsCount,
+      orderBy: {
+        createdAt: 'desc'
       }
     });
   }
