@@ -2,7 +2,7 @@ import { Controller} from '@nestjs/common';
 import { EmailSubscriberService } from './email-subscriber.service';
 import { EventPattern } from '@nestjs/microservices';
 import { CommandEvent } from '@readme/shared-types';
-import { CreateSubscriberDto } from '../dto/create-subscriber.dto';
+import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 
 
 

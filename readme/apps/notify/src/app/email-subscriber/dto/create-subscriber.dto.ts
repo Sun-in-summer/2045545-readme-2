@@ -4,7 +4,7 @@ import {
   EMAIL_NOT_VALID,
   FIRST_NAME_IS_EMPTY,
   LAST_NAME_IS_EMPTY,
-  USER_ID_IS_EMPTY} from '../email-subscriber/email-subscriber.constant';
+  USER_ID_IS_EMPTY} from '../email-subscriber.constant';
 
 export class CreateSubscriberDto {
   @ApiProperty({
