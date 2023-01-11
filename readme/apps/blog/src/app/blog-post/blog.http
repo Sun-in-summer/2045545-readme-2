@@ -4,20 +4,19 @@ POST http://localhost:3333/api/post HTTP/1.1
 Content-Type: application/json
 
 {
-
-  "userId": "391be388-f805-4673-814b-d74222d53c9b",
-  "postCategory": "Video",
+  "userId": "63b1d505587659cd05886c85",
+  "postCategory": "Text",
   "isDraft": true,
-  "tagList": ["images", "fun"],
-  "postTitle": "some Title",
-  "postAnnotation": "some annotation",
-  "postText": "some text"
-
+  "tagsList": ["life", "video"],
+  "postContent": {
+    "postTitle": "some title",
+    "previewText": "some preview text",
+    "postText": "some text"
+  }
 }
 
 ###
-##Show all  posts ()
-
+##Show all  posts
 GET http://localhost:3333/api/post HTTP/1.1
 Content-Type: application/json
 
@@ -25,7 +24,98 @@ Content-Type: application/json
 ###
 ##Show one post
 
-GET http://localhost:3333/api/post/a0653868-9fa6-48c2-a722-f11a601dbd3b HTTP/1.1
+GET http://localhost:3333/api/post/1 HTTP/1.1
+
+###
+##Show posts of type Text
+
+GET http://localhost:3333/api/post?postCategory=Text HTTP/1.1
+
+###
+##Show posts with tag "someTag4"
+
+GET http://localhost:3333/api/post?tag=someTag4 HTTP/1.1
+
+###
+##Show posts of user2
+
+GET http://localhost:3333/api/post?userId=user2 HTTP/1.1
+
+###
+##Show posts with limit - 2 posts only
+
+GET http://localhost:3333/api/post?limit=2 HTTP/1.1
+
+###
+##Show posts with limit - 2 posts only and from old to new (opposite  sort direction)
+
+GET http://localhost:3333/api/post?limit=2&sortDirection=asc HTTP/1.1
+
+###
+##Show posts sorted by comments quantity
+
+GET http://localhost:3333/api/post?sortBy=comments HTTP/1.1
+
+###
+##Show posts from page 2 when limit is 2
+
+GET http://localhost:3333/api/post?limit=2&page=1 HTTP/1.1
+
+
+### Delete post
+
+DELETE http://localhost:3333/api/post/9 HTTP/1.1
+
+### Update post
+PATCH http://localhost:3333/api/post/9 HTTP/1.1
 Content-Type: application/json
+
+{
+  "userId": "344be388-f805-4673-814b-d74222d53c9b",
+  "postCategory": "Text",
+  "isDraft": false,
+  "tagsList": ["fun", "video"],
+  "postContent": {
+    "postTitle": "tetqt443 title",
+    "previewText": "so5y31y13yme preview text",
+    "postText": "sy5y54y514yme text"
+  }
+}
+
+###___________COMMENTS
+
+### Create comment
+
+POST http://localhost:3333/api/comment HTTP/1.1
+Content-Type: application/json
+
+{
+  "commentText": "empt5y comment",
+  "postId": 6,
+  "userId": "63b1d505587659cd05886c85"
+}
+
+### Get exact comment by commentId
+GET http://localhost:3333/api/comment/comments/10 HTTP/1.1
+
+### Get comments to some post
+GET http://localhost:3333/api/comment/3 HTTP/1.1
+
+### Delete comment
+DELETE http://localhost:3333/api/comment/comments/8 HTTP/1.1
+
+
+### Update comment
+PATCH http://localhost:3333/api/comment/comments/10 HTTP/1.1
+Content-Type: application/json
+
+{
+  "commentText": "some text text 4",
+  "postId": 3,
+  "userId": "63b1d505587659cd05886c85"
+}
+
+
+
 
 

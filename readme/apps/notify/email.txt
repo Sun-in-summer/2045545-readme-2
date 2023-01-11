@@ -1,0 +1,8 @@
+From: Elena Rusinova elena.rusinova@gmail.com
+To: e7774090783@gmail.com
+Subject: Hello, world
+Date: Fri, 06 Jan 2023 21-42
+Content-Type: plain/text; charset=utf8
+
+Hello, world! Hello, Keks!
+

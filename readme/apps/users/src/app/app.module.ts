@@ -7,6 +7,8 @@ import databaseConfig  from '../config/database.config'
 import envSchema from './env.schema';
 import {MongooseModule} from '@nestjs/mongoose';
 import { getMongoDbConfig } from '../config/mongodb.config';
+import { jwtConfig } from '../config/jwt.config';
+import { rabbitMqOptions } from '../config/rabbitmq.config';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { getMongoDbConfig } from '../config/mongodb.config';
       cache: true,
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
-      load: [databaseConfig],
+      load: [databaseConfig, jwtConfig, rabbitMqOptions],
       validationSchema: envSchema
     }),
     MongooseModule.forRootAsync(

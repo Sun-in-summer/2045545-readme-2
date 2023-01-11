@@ -1,9 +1,10 @@
-import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Get, Param, Delete, Body, Patch, Query, DefaultValuePipe } from '@nestjs/common';
 import { BlogCommentService } from './blog-comment.service';
 import { ApiResponse} from '@nestjs/swagger';
 import { CreatedCommentRdo } from './rdo/created-comment.rdo';
-import { fillObject, User } from '@readme/core';
+import { fillObject } from '@readme/core';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { DEFAULT_COMMENTS_COUNT, DEFAULT_PAGE } from './blog-comment.constant';
 
 @Controller('comment')///
 export class BlogCommentController {
@@ -12,7 +13,7 @@ export class BlogCommentController {
     private readonly blogCommentService: BlogCommentService
   ){}
 
-  @Post(':postId')
+  @Post('/')
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -21,50 +22,53 @@ export class BlogCommentController {
   public async create(@Body() dto: CreateCommentDto) {  //@Param('postId') postId: string?
     const comment = await this.blogCommentService.create(dto);
     return fillObject(CreatedCommentRdo, comment);
-
-
   }
 
-  @Get(':postId')
+  @Get('/:postId')
   @ApiResponse({
     type: CreatedCommentRdo,
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async showByPostId(@Param('postId') postId: string){
-    const existComment = await this.blogCommentService.getCommentsByPostId(postId);
-    return fillObject(CreatedCommentRdo, existComment);
+  public async showByPostId(
+      @Param('postId') postId: number,
+      @Query ('page', new DefaultValuePipe(DEFAULT_PAGE)) page: number,
+      @Query ('commentsCount', new DefaultValuePipe(DEFAULT_COMMENTS_COUNT)) commentsCount: number
+  ){
+    const existComments = await this.blogCommentService.getCommentsByPostId(postId, page, commentsCount);
+    return fillObject(CreatedCommentRdo, existComments);
   }
 
-  @Get(':postId/:commentId')
+  @Get('/comments/:commentId')
   @ApiResponse({
     type: CreatedCommentRdo,
     status: HttpStatus.OK,
     description: "Comment has been found"
   })
-  public async getComment(@Param('commentId') commentId: string){
+  public async getComment(@Param('commentId') commentId: number){
     const existComment = await this.blogCommentService.getComment(commentId);
     return fillObject(CreatedCommentRdo, existComment);
   }
 
-  @Delete(':commentId')
+  @Delete('/comments/:commentId')
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: HttpStatus.NO_CONTENT,
     description: "Comment has been deleted"
   })
-  public async delete(@Param('commentId') commentId:string, @User() userId: string){
-    return this.blogCommentService.delete(commentId, userId)
+  public async delete(@Param('commentId') commentId: number){
+    return this.blogCommentService.delete(commentId);
   }
 
-  @Patch(':commentId')
+  @Patch('/comments/:commentId')
   @ApiResponse({
     status: HttpStatus.OK,
     description: "Comment has been updated"
   })
-  public async update(@Param('commentId') commentId:string, @Body() dto: CreateCommentDto,  @User() userId: string){
-   const existComment = await this.blogCommentService.update(commentId, userId, dto );
-    return fillObject(CreatedCommentRdo, existComment);
-  }
+  public async update(@Param('commentId') commentId: number, @Body() dto: CreateCommentDto){
+
+   const updatedComment = await this.blogCommentService.update(commentId, dto );
+    return fillObject(CreatedCommentRdo, updatedComment);
+   }
 
 }
 

@@ -1,24 +1,15 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { PostCategory } from '@readme/shared-types';
+import {  IsOptional,  IsBoolean , IsMongoId,  ValidateNested} from 'class-validator';
+import { PostContentDto } from './content/content.dto';
 
 export class CreatePostDto {
- @ApiProperty({
-    description: 'The category of the post.',
-    required: true,
-  })
-  public postCategory: PostCategory;
 
-
-  @ApiProperty({
-    description: 'The title of the post.',
-    required: true,
-  })
-  public postTitle: string;
 
   @ApiProperty({
     description: 'The list of the tags.',
   })
-  public tagList?: string[];
+  @IsOptional()
+  public tagsList?: string[];
 
 
   @ApiProperty({
@@ -26,34 +17,24 @@ export class CreatePostDto {
     required: true,
     default: true
   })
+  @IsBoolean()
   public isDraft: boolean;
 
   @ApiProperty({
     description: 'UserId'
   })
+  @IsOptional()
+  @IsMongoId()
   public userId:  string;
 
-   @ApiProperty({
-    description: 'PostId'
+
+  @ApiProperty({
+    description: 'The content of the post, depends on type of the post',
+    example: "{}",
+    required: true
   })
-  public postId:  string;
-
-
-  public postAnnotation: string;
-  public postText: string;
-  public link: string;
-  public linkDescription?: string;
-  public quoteAuthor: string;
-  public quoteText: string;
-
-  public isRepost: boolean;
-
-  public commentsCount: number;
-  public repostsCount: number;
-  public likesCount: number;
-  public createDate: Date;
-  public publicationDate: Date;
-
+  @ValidateNested()
+  public postContent: PostContentDto;
 
 }
 

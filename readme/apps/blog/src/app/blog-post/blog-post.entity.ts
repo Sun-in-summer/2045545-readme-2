@@ -1,24 +1,24 @@
-import {Post, PostCategory} from '@readme/shared-types'
+import { Entity } from '@readme/core';
+import {Post,  PostCategory, Comment} from '@readme/shared-types'
+import { PostContentDto } from './dto/content/content.dto';
 
-export class BlogPostEntity implements Post {
-  public postId?: string;
+export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
+  public postId?: number;
+  public originalPostId: number;
   public userId: string;
-  public postCategory: PostCategory;
-  public postTitle?: string;
-  public postAnnotation?: string;
-  public postText?: string;
-  public link?: string;
-  public linkDescription?: string;
-  public quoteAuthor: string;
-  public quoteText: string;
+  public originalUserId: string;
+  public postCategory: PostCategory; ////
+  public postContent: PostContentDto;
   public isDraft: boolean;
   public isRepost: boolean;
-  public tagList?: string[];
+  public createdAt?: Date;
+  public updatedAt?: Date;
+  public publishedAt: Date;
+  public tagsList?: string[];
   public commentsCount: number;
+  public comments: Comment[];
   public repostsCount: number;
   public likesCount: number;
-  public createDate: Date;
-  public publicationDate: Date;
 
 
 
@@ -27,33 +27,32 @@ export class BlogPostEntity implements Post {
   }
 
   public toObject() {
-    return {...this};
+    return {
+      ...this
+    }
   }
 
 
 
-  public fillEntity(blogPost: Post) {
+  public fillEntity(blogPost: Post) :void {
     this.postId =blogPost.postId,
+    this.originalPostId = blogPost.originalPostId || blogPost.postId;
     this.userId =blogPost.userId,
+    this.originalUserId = blogPost.originalUserId || blogPost.userId;
     this.postCategory =blogPost.postCategory,
-    this.isDraft = blogPost.isDraft,
-    this.tagList= blogPost.tagList,
+    this.isDraft = blogPost.isDraft || true,
+    this.tagsList= blogPost.tagsList,
     this.commentsCount= blogPost.commentsCount,
+    this.comments={...blogPost.comments},
     this.repostsCount= blogPost.repostsCount,
     this.likesCount= blogPost.likesCount,
     this.isRepost= blogPost.isRepost,
-    this.createDate= blogPost.createDate,
-    this.publicationDate= blogPost.publicationDate
-    this.postTitle = blogPost.postTitle,
-    this.postAnnotation = blogPost.postAnnotation,
-    this.postText =  blogPost.postText,
-    this.link =  blogPost.link,
-    this.linkDescription =  blogPost.linkDescription,
-    this.quoteAuthor = blogPost.quoteAuthor,
-    this.quoteText = blogPost.quoteText,
+    this.createdAt= new Date(),
+    this.updatedAt = new Date(),
+    this.publishedAt = new Date(),
+    this.postContent =blogPost.postContent;
     this.isDraft = blogPost.isDraft,
-    this.isRepost = blogPost.isRepost,
-    this.tagList =  blogPost.tagList
-
+    this.isRepost = blogPost.isRepost || false
+    this.postContent = {...blogPost.postContent}
   }
 }
