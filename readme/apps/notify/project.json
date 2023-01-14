@@ -55,6 +55,15 @@
         "jestConfig": "apps/notify/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run notify:build",
+          "docker build -f ./apps/notify/dockerfile . -t readme.notify --no-cache --force-rm"
+        ]
+      }
     }
   },
   "tags": []

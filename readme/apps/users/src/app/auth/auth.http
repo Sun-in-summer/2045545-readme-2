@@ -4,7 +4,7 @@ POST http://localhost:3333/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksik@mail.ru",
+  "email": "keksik12@mail.ru",
   "birthDate": "2022-11-03",
   "firstname": "Petr",
   "lastname": "Sidorov",
@@ -31,3 +31,7 @@ Content-Type: application/json
 }
 
 ###
+# Get new access token
+
+POST http://localhost:3333/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I4NDgwZWIzOGFiNzc4ZDVhNjE0NTMiLCJlbWFpbCI6IjEyMzRAbWFpbC5ydSIsInJvbGUiOiJ1c2VyIiwibGFzdG5hbWUiOiJTaWRvcm92IiwiZmlyc3RuYW1lIjoiUGV0ciIsImlhdCI6MTY3MzcxNTQzOCwiZXhwIjoxNjc2MzA3NDM4fQ.tJmEyw3b3Vz3jD-eYf7Nnftapu-mTESQoMkM0AGrovc

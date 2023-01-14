@@ -1,5 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { CommandEvent, User, UserRole } from '@readme/shared-types';
+import { CommandEvent, TokenPayload, User, UserRole } from '@readme/shared-types';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as dayjs from 'dayjs';
@@ -9,6 +9,8 @@ import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, RABBI
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@readme/core';
+import { ConfigType } from '@nestjs/config';
+import { jwtConfig } from '../../config/jwt.config';
 
 
 @Injectable()
@@ -17,7 +19,8 @@ export class AuthService {
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
 
-    @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy
+    @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy,
+    @Inject(jwtConfig.KEY) private readonly jwtMainConfig: ConfigType<typeof jwtConfig>
   ){}
 
   async register(dto: CreateUserDto){
@@ -75,8 +78,8 @@ export class AuthService {
     return  existUser;
   }
 
-  async loginUser(user: User) {
-    const payload = {
+  async loginUser(user: Pick<User, '_id'| 'email'| 'role'|'lastname' | 'firstname'>) {
+    const payload: TokenPayload = {
       sub: user._id,
       email: user.email,
       role: user.role,
@@ -86,6 +89,10 @@ export class AuthService {
 
     return {
       access_token: await this.jwtService.signAsync(payload),
+      refresh_token: await this.jwtService.signAsync(payload, {
+        secret: this.jwtMainConfig.refreshTokenSecret,
+        expiresIn: this.jwtMainConfig.refreshTokenExpiresIn,
+      }),
     }
   }
 }

@@ -56,6 +56,15 @@
         "passWithNoTests": true
       }
     },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run blog:build",
+          "docker build -f ./apps/blog/dockerfile . -t readme.blog --no-cache --force-rm"
+        ]
+      }
+  },
     "db-validate":{
       "executor": "nx:run-commands",
       "options":{
