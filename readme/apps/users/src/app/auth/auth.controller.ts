@@ -1,5 +1,5 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
-import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param, UseGuards, Request, Req} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param, UseGuards, Request, Req, UseFilters} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillObject } from '@readme/core';
@@ -9,8 +9,10 @@ import { MongoidValidationPipe } from '../pipes/mongoid-validation.pipe';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-import { RequestWithTokenPayload, RequestWithUser } from '@readme/shared-types';
+import { RefreshTokenPayload, RequestWithTokenPayload, RequestWithUser } from '@readme/shared-types';
+import { HttpExceptionFilter } from './http.exception-filter';
 
+@UseFilters(HttpExceptionFilter)
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -51,9 +53,15 @@ export class AuthController {
     status: HttpStatus.OK,
     description: 'Get a new access/refresh tokens'
   })
-  async refresh(@Req() request: RequestWithTokenPayload){
-    const {user: TokenPayload} =request;
-    return this.authService.loginUser(TokenPayload);
+  async refresh(@Req() request: RequestWithTokenPayload<RefreshTokenPayload>){
+    const {user: tokenPayload} =request;
+    return this.authService.loginUser({
+      firstname: tokenPayload.firstname,
+      lastname: tokenPayload.lastname,
+      role: tokenPayload.role,
+      email: tokenPayload.email,
+      _id: tokenPayload.sub
+    }, tokenPayload.refreshTokenId);
   }
 
   @UseGuards(JwtAuthGuard)

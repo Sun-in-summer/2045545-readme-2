@@ -8,4 +8,6 @@ export * from './lib/command-event.enum';
 export * from './lib/request-with-user.interface';
 export * from './lib/token-payload.interface';
 export * from './lib/request-with-token-payload.interface copy';
+export * from './lib/refresh-token-payload.interface';
+export * from './lib/token.interface';
 

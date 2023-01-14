@@ -1,16 +1,24 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { CommandEvent, TokenPayload, User, UserRole } from '@readme/shared-types';
+import { randomUUID } from 'crypto';
+import { Inject, Injectable } from '@nestjs/common';
+import { CommandEvent, RefreshTokenPayload, TokenPayload, User, UserRole } from '@readme/shared-types';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as dayjs from 'dayjs';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
-import { AUTH_USER_EXISTS , AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, RABBITMQ_SERVICE} from './auth.constant';
+import { RABBITMQ_SERVICE} from './auth.constant';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@readme/core';
 import { ConfigType } from '@nestjs/config';
 import { jwtConfig } from '../../config/jwt.config';
+import {
+  UserNotFoundException,
+  UserExistsException,
+  UserPasswordWrongException,
+  UserNotRegisteredException
+} from './exceptions';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 
 @Injectable()
@@ -18,6 +26,7 @@ export class AuthService {
   constructor (
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
+    private readonly refreshTokenService: RefreshTokenService,
 
     @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy,
     @Inject(jwtConfig.KEY) private readonly jwtMainConfig: ConfigType<typeof jwtConfig>
@@ -34,7 +43,7 @@ export class AuthService {
     const existUser = await this.blogUserRepository
       .findByEmail(email);
     if (existUser) {
-      throw new Error(AUTH_USER_EXISTS);
+      throw new UserExistsException(email);
     }
 
     const userEntity = await  new BlogUserEntity(blogUser)
@@ -61,12 +70,12 @@ export class AuthService {
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new UnauthorizedException(AUTH_USER_NOT_FOUND);
+      throw new UserNotRegisteredException(email);
     }
 
     const blogUserEntity = new BlogUserEntity(existUser);
     if (! await blogUserEntity.comparePassword(password)){
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UserPasswordWrongException();
     }
 
     return blogUserEntity.toObject();
@@ -74,11 +83,15 @@ export class AuthService {
   }
 
   async getUser(id: string) {
-    const existUser =  this.blogUserRepository.findById(id);
+    const existUser =  await this.blogUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new UserNotFoundException(id);
+    }
     return  existUser;
   }
 
-  async loginUser(user: Pick<User, '_id'| 'email'| 'role'|'lastname' | 'firstname'>) {
+  async loginUser(user: Pick<User, '_id'| 'email'| 'role'|'lastname' | 'firstname'>, refreshTokenId?: string) {
     const payload: TokenPayload = {
       sub: user._id,
       email: user.email,
@@ -87,9 +100,17 @@ export class AuthService {
       firstname: user.firstname
     };
 
+    await this.refreshTokenService.deleteRefreshSession(refreshTokenId);
+
+    const refreshTokenPayload: RefreshTokenPayload = {
+      ...payload, refreshTokenId: randomUUID()
+    }
+
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
+
     return {
       access_token: await this.jwtService.signAsync(payload),
-      refresh_token: await this.jwtService.signAsync(payload, {
+      refresh_token: await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtMainConfig.refreshTokenSecret,
         expiresIn: this.jwtMainConfig.refreshTokenExpiresIn,
       }),
