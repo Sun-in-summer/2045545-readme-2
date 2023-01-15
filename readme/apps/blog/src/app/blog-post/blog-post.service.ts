@@ -10,7 +10,6 @@ import { BlogPostQuery } from './query/blog-post.query';
 import {NOTIFIER_RABBITMQ_SERVICE} from './blog-post.constant';
 import {ClientProxy} from '@nestjs/microservices';
 import { RepostPostDto } from './dto/repost.dto';
-import { PostCategory } from '@prisma/client';
 
 
 @Injectable()
