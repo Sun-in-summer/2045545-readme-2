@@ -21,6 +21,7 @@ export interface Post {
   commentsCount: number;
   comments?: Comment[];
   repostsCount: number;
+  likes: string[];
   likesCount: number;
   createdAt?: Date;
   publishedAt?: Date;

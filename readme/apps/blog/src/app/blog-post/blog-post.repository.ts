@@ -18,16 +18,16 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
      const contentData =entityData.postContent;
      const { postCategory, postId, ...content} = contentData;
 
+     delete entityData.postContent;
 
      const post = await this.prisma.post.create({
       data: {
         ...entityData,
-        postCategory: entityData.postCategory,
         originalPostId: postId,
         comments: {
           connect: []
         },
-        [postCategory]: {
+        [postCategory.toLowerCase()]: {
           create: {
              ...content
           }
@@ -43,6 +43,7 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
         text: true,
       }
     });
+
      return post;
   }
 
@@ -68,7 +69,7 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
         photo: true,
       }
     });
-    console.log("post =", post);
+
     return {...post, postId: post.id};
   }
 
@@ -124,17 +125,47 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
 
   public async update(id: number, item: BlogPostEntity): Promise<Post> {
     const data = item.toObject();
+
+      const contentData = data.postContent;
+     const { postCategory, ...content} = contentData;
+     delete data.postContent;
+     delete data.postId;
+
      return  await  this.prisma.post.update({
        where: {
         id
       },
       data: {
         ...data,
-        id,
+        [postCategory.toLowerCase()]: {
+          update: {
+             ...content
+          }
+        },
         comments: {
           connect: []
         }
       }
      });
+  }
+
+
+  public async updateFromPost(id: number, item: BlogPostEntity): Promise<Post>{
+    const data = item.toObject();
+     delete data.postContent;
+     delete data.postId;
+
+     return  await  this.prisma.post.update({
+       where: {
+        id
+      },
+      data: {
+        ...data
+         ,
+        comments: {
+          connect: []
+        }
+      }
+    });
   }
 }

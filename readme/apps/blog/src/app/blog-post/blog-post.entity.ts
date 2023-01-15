@@ -19,6 +19,7 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   public comments: Comment[];
   public repostsCount: number;
   public likesCount: number;
+  public likes: string[];
 
 
 
@@ -28,7 +29,7 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
 
   public toObject() {
     return {
-      ...this
+      ...this,
     }
   }
 
@@ -54,5 +55,6 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
     this.isDraft = blogPost.isDraft,
     this.isRepost = blogPost.isRepost || false
     this.postContent = {...blogPost.postContent}
+    this.likes  = [...blogPost.likes]
   }
 }

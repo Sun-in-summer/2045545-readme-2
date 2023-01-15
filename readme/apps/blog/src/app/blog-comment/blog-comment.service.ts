@@ -3,7 +3,7 @@ import { Comment } from '@readme/shared-types';
 import { BlogCommentRepository} from './blog-comment.repository'
 import { BlogCommentEntity } from './blog-comment.entity';
 import {  CreateCommentDto } from './dto/create-comment.dto';
-// import { NO_PERMISSION, COMMENT_NOT_FOUND } from './blog-comment.constant';
+import { NO_PERMISSION, COMMENT_NOT_FOUND } from './blog-comment.constant';
 
 
 @Injectable()
@@ -38,14 +38,14 @@ export class BlogCommentService {
 
   }
 
-  async delete (commentId: number): Promise <void> {
-    // const existComment = await this.blogCommentRepository.findById(commentId);
-    // if (!existComment) {
-    //   throw new Error(COMMENT_NOT_FOUND);
-    // }
-    // if (existComment.userId !== userId ){
-    //   throw new Error (NO_PERMISSION);
-    // }
+  async delete (commentId: number, userId: string): Promise <void> {
+    const existComment = await this.blogCommentRepository.findById(commentId);
+    if (!existComment) {
+     throw new Error(COMMENT_NOT_FOUND);
+    }
+    if (existComment.userId !== userId ){
+      throw new Error (NO_PERMISSION);
+    }
     this.blogCommentRepository.destroy(commentId);
   }
 
@@ -68,6 +68,15 @@ export class BlogCommentService {
   }
 
   async updateComment(commentId: number, dto: CreateCommentDto) : Promise <Comment> {
+   const existComment = await this.blogCommentRepository.findById(commentId);
+   console.log(existComment.userId);
+   console.log(dto.userId);
+    if (!existComment) {
+     throw new Error(COMMENT_NOT_FOUND);
+    }
+    if (existComment.userId !== dto.userId ){
+      throw new Error (NO_PERMISSION);
+    }
       return this.blogCommentRepository.update(commentId, new BlogCommentEntity(dto));
   }
 

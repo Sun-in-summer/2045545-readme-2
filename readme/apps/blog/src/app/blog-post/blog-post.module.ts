@@ -3,11 +3,24 @@ import { BlogCommentModule } from '../blog-comment/blog-comment.module';
 import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostController } from './blog-post.controller';
 import { BlogPostService } from './blog-post.service';
+import { NOTIFIER_RABBITMQ_SERVICE } from './blog-post.constant';
+import {ClientsModule} from '@nestjs/microservices';
+import {ConfigService} from '@nestjs/config';
+import { getNotifierRabbitMqConfig } from '../config/rabbitmq.config';
 
 @Module({
   controllers: [BlogPostController],
   providers: [BlogPostService, BlogPostRepository],
-  imports: [BlogCommentModule],
+  imports: [
+    BlogCommentModule,
+    ClientsModule.registerAsync([
+      {
+        name: NOTIFIER_RABBITMQ_SERVICE,
+        useFactory: getNotifierRabbitMqConfig,
+        inject: [ConfigService]
+      },
+      ])
+  ],
   exports: [BlogPostRepository] ////
 })
 export class BlogPostModule {}

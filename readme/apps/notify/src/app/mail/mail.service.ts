@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer/dist';
 import { Subscriber } from '@readme/shared-types';
-import { EMAIL_ADD_SUBSCRIBER_SUBJECT } from './mail.constant';
+import { EMAIL_ADD_SUBSCRIBER_SUBJECT, EMAIL_ADD_POST_SUBJECT } from './mail.constant';
+import { NewPostsDto } from '../email-subscriber/dto/new-posts.dto';
 
 
 @Injectable()
@@ -24,4 +25,15 @@ export class MailService {
     })
  }
 
+  public async sendNewPostNotification(emails: string[], dto: NewPostsDto) {
+    const ids =[...dto.postIds]
+    await this.mailerService.sendMail({
+      to: emails,
+      subject: EMAIL_ADD_POST_SUBJECT,
+      template: './add-post',
+      context: {
+        posts: `${ids} `
+      }
+    })
+  }
 }
