@@ -130,18 +130,18 @@ export class AuthService {
     if (!existUser) {
       throw new UserExistsException(dto.email);
     }
-     const updatedUser =await new BlogUserEntity({...existUser, ...dto});
-     return this.blogUserRepository.update(id, updatedUser);
+     const updatedUserEntity =await new BlogUserEntity({...existUser, ...dto});
+     const updatedUser =  this.blogUserRepository.update(id, updatedUserEntity);
 
 
     this.rabbitClient.emit(
         createEvent(CommandEvent.DeleteSubscriber),////
         {
-          id: updatedUser._id,
-          firstname: updatedUser.firstname,
-          lastname: updatedUser.lastname,
-          email: updatedUser.email,
-          isSubscribed: updatedUser.isSubscribed,
+          id: updatedUserEntity._id,
+          firstname: updatedUserEntity.firstname,
+          lastname: updatedUserEntity.lastname,
+          email: updatedUserEntity.email,
+          isSubscribed: updatedUserEntity.isSubscribed,
         }
       )
 

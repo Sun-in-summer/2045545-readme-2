@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { IsEmail, IsISO8601, IsString, IsNotEmpty , MinLength, MaxLength, IsOptional, IsBoolean, IsDataURI } from 'class-validator';
+import { IsEmail, IsISO8601, IsString, IsNotEmpty , MinLength, MaxLength, IsOptional, IsBoolean} from 'class-validator';
 import { AUTH_USER_EMAIL_NOT_VALID, AUTH_USER_DATE_BIRTH_NOT_VALID } from '../auth.constant';
 export class CreateUserDto {
   @ApiProperty({
@@ -55,7 +55,6 @@ export class CreateUserDto {
     example: "avatar.jpg"
   })
   @IsOptional()
-  @IsDataURI()
   public avatar: string;
 
 
