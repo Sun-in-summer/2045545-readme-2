@@ -6,7 +6,8 @@ export const rabbitMqOptions = registerAs('rmq', () => ({
   password: process.env.RABBIT_PASSWORD,
   host: process.env.RABBIT_HOST,
   queueForNotifier: process.env.RABBIT_NOTIFIER_SERVICE_QUEUE,
- }));
+  queueForUsers: process.env.RABBIT_USERS_SERVICE_QUEUE
+}));
 
 export function getNotifierRabbitMqConfig(configService: ConfigService): RmqOptions {
   const user = configService.get<string>('rmq.user');

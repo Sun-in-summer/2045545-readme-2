@@ -3,6 +3,8 @@ import { EmailSubscriberService } from './email-subscriber.service';
 import { EventPattern } from '@nestjs/microservices';
 import { CommandEvent } from '@readme/shared-types';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
+import { NewPostsDto } from './dto/new-posts.dto';
+
 
 
 
@@ -17,6 +19,11 @@ export class EmailSubscriberController {
   @EventPattern({cmd: CommandEvent.AddSubscriber})
   public async create (subscriber: CreateSubscriberDto) {
     return this.subscriberService.addSubscriber(subscriber);
+  }
+
+  @EventPattern({cmd: CommandEvent.AddPosts})
+  public async addPosts(dto: NewPostsDto) {
+    return this.subscriberService.sendNewPosts(dto);
   }
 
   @EventPattern({cmd: CommandEvent.DeleteSubscriber})

@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
    "avatar": "avatar.jpg",
-   "email": "subscriber4@local.test",
+   "email": "subscriber3@local.test",
    "birthDate": "2012-02-21",
    "firstname": "Puma",
    "lastname": "Koshka",

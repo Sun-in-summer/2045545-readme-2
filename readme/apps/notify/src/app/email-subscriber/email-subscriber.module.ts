@@ -21,7 +21,6 @@ import { MailModule } from '../mail/mail.module';
     EmailSubscriberRepository
   ],
   controllers: [EmailSubscriberController],
-  exports: [    EmailSubscriberService,
-    EmailSubscriberRepository,],
+  exports: [],
 })
 export class EmailSubscriberModule {}
