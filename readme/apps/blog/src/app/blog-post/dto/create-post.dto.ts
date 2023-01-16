@@ -17,7 +17,7 @@ export class CreatePostDto {
   @ApiProperty({
     description: 'Is draft or  published',
     required: true,
-    default: true
+    default: false
   })
   @IsBoolean()
   public isDraft: boolean;

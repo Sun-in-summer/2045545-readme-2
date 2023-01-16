@@ -33,11 +33,16 @@ export class AuthService {
   ){}
 
   async register(dto: CreateUserDto){
-    const {email, birthDate, firstname, lastname, password} = dto;
+    const {email, birthDate, firstname, lastname, password, isSubscribed} = dto;
 
     const blogUser ={
-    email, birthDate: dayjs(birthDate).toDate(), lastname, firstname, role: UserRole.User,
-    avatar: dto.avatar ? dto.avatar: '', passwordHash: ''
+    email,
+    birthDate: dayjs(birthDate).toDate(),
+    lastname, firstname,
+    role: UserRole.User,
+    avatar: dto.avatar ? dto.avatar: '',
+    passwordHash: '',
+    isSubscribed
     }
 
     const existUser = await this.blogUserRepository
@@ -59,6 +64,7 @@ export class AuthService {
           firstname: createdUser.firstname,
           lastname: createdUser.lastname,
           email: createdUser.email,
+          isSubscribed: createdUser.isSubscribed,
         }
       )
 
@@ -115,5 +121,31 @@ export class AuthService {
         expiresIn: this.jwtMainConfig.refreshTokenExpiresIn,
       }),
     }
+  }
+
+  async updateUser(id: string, dto:CreateUserDto) {
+
+     const existUser = await this.blogUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new UserExistsException(dto.email);
+    }
+     const updatedUser =await new BlogUserEntity({...existUser, ...dto});
+     return this.blogUserRepository.update(id, updatedUser);
+
+
+    this.rabbitClient.emit(
+        createEvent(CommandEvent.DeleteSubscriber),////
+        {
+          id: updatedUser._id,
+          firstname: updatedUser.firstname,
+          lastname: updatedUser.lastname,
+          email: updatedUser.email,
+          isSubscribed: updatedUser.isSubscribed,
+        }
+      )
+
+    return updatedUser;
+
   }
 }

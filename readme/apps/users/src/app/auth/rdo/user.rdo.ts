@@ -43,5 +43,5 @@ export class  UserRdo {
     example: "1984-09-05"
   })
   @Expose()
-  public birthDate: string;
+  public birthDate: Date; ////
 }

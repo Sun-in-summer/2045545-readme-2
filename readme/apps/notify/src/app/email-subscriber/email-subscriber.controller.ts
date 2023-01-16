@@ -26,5 +26,10 @@ export class EmailSubscriberController {
     return this.subscriberService.sendNewPosts(dto);
   }
 
+  @EventPattern({cmd: CommandEvent.DeleteSubscriber})
+  public async deleteSubscriber(subscriber: CreateSubscriberDto) {
+    return this.subscriberService.informSubscriberAboutDeleting(subscriber);
+  }
+
 }
 

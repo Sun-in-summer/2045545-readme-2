@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { IsEmail, IsISO8601, IsString, IsNotEmpty , MinLength, MaxLength, Matches, IsOptional } from 'class-validator';
+import { IsEmail, IsISO8601, IsString, IsNotEmpty , MinLength, MaxLength, IsOptional, IsBoolean, IsDataURI } from 'class-validator';
 import { AUTH_USER_EMAIL_NOT_VALID, AUTH_USER_DATE_BIRTH_NOT_VALID } from '../auth.constant';
 export class CreateUserDto {
   @ApiProperty({
@@ -21,7 +21,7 @@ export class CreateUserDto {
   @IsISO8601({
     message: AUTH_USER_DATE_BIRTH_NOT_VALID
   })
-  public birthDate: string;
+  public birthDate: Date;
 
   @ApiProperty({
     description: "User's first name",
@@ -55,8 +55,17 @@ export class CreateUserDto {
     example: "avatar.jpg"
   })
   @IsOptional()
-  // eslint-disable-next-line no-useless-escape
-  @Matches('?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?: jpg|png))(?:\?([^#]*))?(?:#(.*))?}')
+  @IsDataURI()
   public avatar: string;
+
+
+  @ApiProperty({
+    description: "Subscriber's status",
+    example: "false",
+    required: true,
+    default: true
+  })
+  @IsBoolean()
+  public isSubscribed: boolean;
 
 }

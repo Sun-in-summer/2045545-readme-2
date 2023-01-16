@@ -1,5 +1,5 @@
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
-import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param, UseGuards, Request, Req, UseFilters} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post , Body, Get, Param, UseGuards, Request, Req, UseFilters, Patch} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillObject } from '@readme/core';
@@ -75,5 +75,14 @@ export class AuthController {
     console.log(req.user);
     const existedUser = await this.authService.getUser(id);
     return fillObject(UserRdo, existedUser);
+  }
+
+
+  @Patch('update/:id')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({status: HttpStatus.OK, description: 'The user has been successfully updated '})
+  async update(@Param('id', MongoidValidationPipe) id: string, @Body() dto: CreateUserDto){
+    const newUser = await  this.authService.updateUser(id, dto);
+    return fillObject(UserRdo, newUser);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer/dist';
 import { Subscriber } from '@readme/shared-types';
-import { EMAIL_ADD_SUBSCRIBER_SUBJECT, EMAIL_ADD_POST_SUBJECT } from './mail.constant';
+import { EMAIL_ADD_SUBSCRIBER_SUBJECT, EMAIL_ADD_POST_SUBJECT, EMAIL_DELETE_SUBSCRIBER_SUBJECT } from './mail.constant';
 import { NewPostsDto } from '../email-subscriber/dto/new-posts.dto';
 
 
@@ -36,4 +36,18 @@ export class MailService {
       }
     })
   }
+
+  public async informSubscriber(subscriber: Subscriber)  {
+
+    await this.mailerService.sendMail({
+        to: subscriber.email ,
+        subject: EMAIL_DELETE_SUBSCRIBER_SUBJECT,
+        template: './delete-subscriber',
+        context: {
+          user: `${subscriber.firstname} ${subscriber.lastname}`,
+          email: `${subscriber.email}`
+        }
+
+    })
+ }
 }
