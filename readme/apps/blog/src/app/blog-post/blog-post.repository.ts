@@ -168,4 +168,9 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
       }
     });
   }
+
+  public async findNewPosts(): Promise <Post[]>{
+    return this.prisma.post.findMany()
+  }
+
 }

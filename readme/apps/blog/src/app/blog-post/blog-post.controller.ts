@@ -7,6 +7,7 @@ import { BlogCommentService } from '../blog-comment/blog-comment.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { BlogPostQuery } from './query/blog-post.query';
 import { RepostPostDto } from './dto/repost.dto';
+import { NotifyUserDto } from './dto/notify-user.dto';
 
 
 @Controller('post')
@@ -95,6 +96,12 @@ export class BlogPostController {
   ) {
     const post = await this.blogPostService.changeLikesCount(postId, dto.userId);
     return fillObject(CreatedPostRdo, post);
+  }
+
+
+  @Get('/notify')
+  public async notifyUser(@Body() dto: NotifyUserDto) {
+    this.blogPostService.notify(dto.email);
   }
 
 

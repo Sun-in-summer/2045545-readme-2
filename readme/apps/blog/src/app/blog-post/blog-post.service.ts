@@ -1,5 +1,5 @@
 import { Injectable , Inject} from '@nestjs/common';
-import { Post } from '@readme/shared-types';
+import { CommandEvent, Post } from '@readme/shared-types';
 // import { BlogPostMemoryRepository } from '../blog-post/blog-post-memory.repository';
 import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostEntity } from '../blog-post/blog-post.entity';
@@ -7,7 +7,7 @@ import {  CreatePostDto } from './dto/create-post.dto';
 import * as dayjs from 'dayjs';
 import {  POST_NOT_FOUND } from './blog-post.constant';
 import { BlogPostQuery } from './query/blog-post.query';
-import {NOTIFIER_RABBITMQ_SERVICE} from './blog-post.constant';
+import {RABBITMQ_SERVICE} from './blog-post.constant';
 import {ClientProxy} from '@nestjs/microservices';
 import { RepostPostDto } from './dto/repost.dto';
 
@@ -17,7 +17,7 @@ export class BlogPostService {
 
   constructor (
     private readonly blogPostRepository: BlogPostRepository,
-    @Inject(NOTIFIER_RABBITMQ_SERVICE) private readonly notifierRabbitClient: ClientProxy,
+    @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy,
   ){}
 
   async create(dto: CreatePostDto): Promise<Post> {
@@ -122,5 +122,28 @@ export class BlogPostService {
     const updatedPostEntity = new BlogPostEntity(updatedPost);
     return await this.blogPostRepository.updateFromPost(postId, updatedPostEntity);
   }
+
+  async notify(email: string): Promise<void> {
+    // const newPosts = await this.blogPostRepository.findNewPosts();
+
+    const newPosts = await this.blogPostRepository.findById(7) ;
+    console.log(newPosts);
+
+    //для примера
+
+    // const postsIds = newPosts.map((post) => post.postId);
+
+    this.rabbitClient.emit(
+      {
+        cmd: CommandEvent.AddPosts
+      },
+      {
+        email: email,
+        postIds: newPosts.postId //заменить после отладки
+      }
+    );
+  }
+
+
 
 }

@@ -5,15 +5,15 @@ export const rabbitMqOptions = registerAs('rmq', () => ({
   user: process.env.RABBIT_USER,
   password: process.env.RABBIT_PASSWORD,
   host: process.env.RABBIT_HOST,
-  queueForNotifier: process.env.RABBIT_NOTIFIER_SERVICE_QUEUE,
-  queueForUsers: process.env.RABBIT_USERS_SERVICE_QUEUE
+  port: process.env.RABBIT_PORT,
+  queue: process.env.RABBIT_POSTS_SERVICE_QUEUE
 }));
 
-export function getNotifierRabbitMqConfig(configService: ConfigService): RmqOptions {
+export function getRabbitMqConfig(configService: ConfigService): RmqOptions {
   const user = configService.get<string>('rmq.user');
   const password = configService.get<string>('rmq.password');
   const host = configService.get<string>('rmq.host');
-  const queue = configService.get<string>('rmq.queueForNotifier');
+  const queue = configService.get<string>('rmq.queue');
   const url = `amqp://${user}:${password}@${host}`;
 
   return {
