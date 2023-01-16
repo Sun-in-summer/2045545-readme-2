@@ -1,5 +1,5 @@
 import { Injectable , Inject} from '@nestjs/common';
-import { Post } from '@readme/shared-types';
+import { CommandEvent, Post } from '@readme/shared-types';
 // import { BlogPostMemoryRepository } from '../blog-post/blog-post-memory.repository';
 import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostEntity } from '../blog-post/blog-post.entity';
@@ -33,6 +33,14 @@ export class BlogPostService {
       likes: [],
       postCategory: dto.postContent.postCategory
     });
+
+    this.notifierRabbitClient.emit(
+      {cmd: CommandEvent.AddPosts},
+      {
+        category: postEntity.postCategory,
+        postId: postEntity.postId,
+      }
+    )
 
 
     return this.blogPostRepository.create(postEntity);

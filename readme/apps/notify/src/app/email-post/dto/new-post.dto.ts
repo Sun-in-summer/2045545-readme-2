@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
-export class NewPostsDto {
+export class NewPostDto {
   @IsEmail()
   @ApiProperty({
     description: 'Email of user',
@@ -9,11 +9,11 @@ export class NewPostsDto {
   })
   public email?: string;
 
-  @IsArray()
+  @IsString()
   @ApiProperty({
     description: 'New posts ids',
     example: '1, 2, 3'
   })
-  public postIds?: string[];
+  public postId?: string;
 
 }
