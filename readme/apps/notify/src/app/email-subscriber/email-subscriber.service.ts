@@ -36,7 +36,7 @@ export class EmailSubscriberService {
    public async sendNewPosts(dto: NewPostsDto) {
     const users = await this.emailSubscriberRepository.find();
     const emails = users.map((user) => user.email);
-    return this.mailService.sendNewPostNotification(emails, dto);
+    this.mailService.sendNewPostNotification(emails, dto);
   }
 
 

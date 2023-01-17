@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 ##Show one post
 
-GET http://localhost:3335/api/post/1 HTTP/1.1
+GET http://localhost:3335/api/post/2 HTTP/1.1
 
 ###
 ##Show posts of type Text

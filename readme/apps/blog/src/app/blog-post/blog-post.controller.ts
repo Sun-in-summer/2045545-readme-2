@@ -36,18 +36,6 @@ export class BlogPostController {
     return fillObject(CreatedPostRdo, posts)
   }
 
-  @Get('/:postId')
-  @ApiResponse({
-    type: CreatedPostRdo,
-    status: HttpStatus.OK,
-    description: "Post has been found"
-  })
-  async show(@Param('postId') postId: number){
-    const existPost = await this.blogPostService.getPost(postId);
-    return fillObject(CreatedPostRdo, existPost);
-
-  }
-
 
   @Patch('/:postId')
   @ApiResponse({
@@ -104,6 +92,18 @@ export class BlogPostController {
     this.blogPostService.notify(dto.email);
   }
 
+
+  @Get('/:postId')
+  @ApiResponse({
+    type: CreatedPostRdo,
+    status: HttpStatus.OK,
+    description: "Post has been found"
+  })
+  async show(@Param('postId') postId: number){
+    const existPost = await this.blogPostService.getPost(postId);
+    return fillObject(CreatedPostRdo, existPost);
+
+  }
 
 
 }

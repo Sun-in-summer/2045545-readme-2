@@ -123,15 +123,10 @@ export class BlogPostService {
     return await this.blogPostRepository.updateFromPost(postId, updatedPostEntity);
   }
 
-  async notify(email: string): Promise<void> {
-    // const newPosts = await this.blogPostRepository.findNewPosts();
+  async notify(email: string ): Promise<void> {
 
-    const newPosts = await this.blogPostRepository.findById(7) ;
-    console.log(newPosts);
-
-    //для примера
-
-    // const postsIds = newPosts.map((post) => post.postId);
+    const newPosts = await this.blogPostRepository.findNewPosts() ;
+    const postsIds = newPosts.map((post) => post.postId);
 
     this.rabbitClient.emit(
       {
@@ -139,9 +134,11 @@ export class BlogPostService {
       },
       {
         email: email,
-        postIds: newPosts.postId //заменить после отладки
+        postIds: postsIds //заменить после отладки
       }
     );
+
+
   }
 
 

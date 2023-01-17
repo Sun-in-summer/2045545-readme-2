@@ -21,6 +21,7 @@ import { getRabbitMqConfig } from '../config/rabbitmq.config';
       },
       ])
   ],
-  exports: [BlogPostRepository] ////
+  exports: [BlogPostRepository]
+
 })
 export class BlogPostModule {}
