@@ -10,11 +10,15 @@ import { PassportModule } from '@nestjs/passport';
 import { ClientsModule } from '@nestjs/microservices';
 import { getRabbitMqConfig } from '../../config/rabbitmq.config';
 import { RABBITMQ_SERVICE } from './auth.constant';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 
 @Module({
   imports: [
     BlogUserModule,
     PassportModule,
+    RefreshTokenModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -29,6 +33,11 @@ import { RABBITMQ_SERVICE } from './auth.constant';
   ])
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    LocalStrategy,
+    JwtRefreshStrategy
+  ],
 })
 export class AuthModule {}

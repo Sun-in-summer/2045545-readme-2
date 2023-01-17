@@ -5,11 +5,12 @@ Content-Type: application/json
 
 {
    "avatar": "avatar.jpg",
-   "email": "test13@local.test",
+   "email": "subscriber3@local.test",
    "birthDate": "2012-02-21",
    "firstname": "Puma",
    "lastname": "Koshka",
-   "password": "privet"
+   "password": "privet",
+   "isSubscribed": true
 }
 
 ### Login

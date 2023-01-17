@@ -6,3 +6,4 @@ export const LAST_NAME_IS_EMPTY = 'The last name is empty';
 export const FIRST_NAME_IS_EMPTY = 'The first name is empty';
 export const USER_ID_IS_EMPTY = 'The userId is empty';
 export const EMAIL_SUBSCRIBER_EXISTS ="The subscriber with such email already exists"
+export const EMAIL_SUBSCRIBER_NOT_EXIST ="The subscriber does not exist"

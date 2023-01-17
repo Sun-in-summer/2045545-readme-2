@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import { IsEmail,  IsNotEmpty  } from 'class-validator';
+import { IsBoolean, IsEmail,  IsNotEmpty  } from 'class-validator';
 import {
   EMAIL_NOT_VALID,
   FIRST_NAME_IS_EMPTY,
@@ -40,5 +40,17 @@ export class CreateSubscriberDto {
   })
   @IsNotEmpty({message: USER_ID_IS_EMPTY})
   public userId: string;
+
+  @ApiProperty({
+    description: "Subscriber's status",
+    example: "false",
+    required: true,
+    default: true
+  })
+  @IsBoolean()
+  public isSubscribed: boolean;
+
+
+
 
 }

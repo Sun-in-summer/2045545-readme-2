@@ -32,6 +32,12 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   })
   userId: string
 
+  @Prop({
+    type: Boolean,
+  })
+  isSubscribed: boolean
+
+
 }
 
 export const EmailSubscriberSchema = SchemaFactory.createForClass(EmailSubscriberModel);

@@ -9,4 +9,5 @@ export interface User {
   avatar: string;
   role: UserRole
   passwordHash: string;
+  isSubscribed: boolean;
 }

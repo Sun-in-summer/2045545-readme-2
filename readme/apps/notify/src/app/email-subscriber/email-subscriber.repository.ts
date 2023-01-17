@@ -21,6 +21,12 @@ export class EmailSubscriberRepository implements CRUDRepository<EmailSubscriber
     this.emailSubscriberModel.deleteOne({ id });
   }
 
+  public async find(): Promise<Subscriber[]> {
+    return this.emailSubscriberModel
+    .find()
+    .exec();
+  }
+
   public async findById(id: string): Promise<Subscriber | null> {
     return this.emailSubscriberModel
         .findOne({ id })

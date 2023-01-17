@@ -8,6 +8,7 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
   public lastname: string;
   public email: string;
   public userId: string;
+  public isSubscribed: boolean;
 
   constructor(emailSubscriber: Subscriber) {
     this.fillEntity(emailSubscriber);
@@ -18,7 +19,9 @@ export class EmailSubscriberEntity implements Entity<EmailSubscriberEntity>, Sub
     this.firstname = entity.firstname;
     this.lastname = entity.lastname;
     this.email = entity.email;
-    this.userId = entity.userId
+    this.userId = entity.userId;
+    this.isSubscribed = entity.isSubscribed;
+
   }
 
   public toObject():EmailSubscriberEntity {

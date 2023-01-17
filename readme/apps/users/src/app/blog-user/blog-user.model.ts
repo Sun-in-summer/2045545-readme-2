@@ -45,6 +45,13 @@ export class BlogUserModel extends Document implements User {
   })
   passwordHash: string;
 
+  @Prop({
+    required: true,
+    type: Boolean,
+    default: true,
+  })
+  isSubscribed: boolean;
+
 
 
 

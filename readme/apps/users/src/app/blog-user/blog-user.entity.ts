@@ -13,6 +13,7 @@ export class BlogUserEntity implements User {
   public avatar: string;
   public role: UserRole;
   public passwordHash: string;
+  public isSubscribed: boolean;
 
   constructor (blogUser: User) {
     this.fillEntity(blogUser);
@@ -41,5 +42,6 @@ export class BlogUserEntity implements User {
     this.lastname = blogUser.lastname;
     this.passwordHash = blogUser.passwordHash;
     this.role = blogUser.role;
+    this.isSubscribed = blogUser.isSubscribed;
   }
 }
