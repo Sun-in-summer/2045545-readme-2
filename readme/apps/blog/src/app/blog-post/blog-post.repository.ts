@@ -56,9 +56,11 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
   }
 
   public  async findById(id: number): Promise< ExtendedPost | null > {
+
+
     const post =  await this.prisma.post.findFirst({
       where: {
-        id
+        id,
       },
       include: {
         comments: true,
@@ -170,7 +172,15 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
   }
 
   public async findNewPosts(): Promise <Post[]>{
-    return this.prisma.post.findMany()
+
+    const foundPosts = await this.prisma.post.findMany({
+      take: 2,
+      where: {
+        isDraft: false
+      },
+    })
+
+    return foundPosts;
   }
 
 }
