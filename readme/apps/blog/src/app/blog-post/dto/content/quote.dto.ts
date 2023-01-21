@@ -7,11 +7,11 @@ import { ContentDtoBase } from "./content.dto";
 export class QuoteDto extends ContentDtoBase {
   @Expose()
   @IsString()
-  quoteText?: string;
+  quoteText: string;
 
   @Expose()
   @IsString()
-  quoteAuthor?: string;
+  quoteAuthor: string;
 
   constructor() {
     super()

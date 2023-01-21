@@ -1,6 +1,6 @@
-import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete, Query} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Patch, Get, Param, Body, Delete, Query, UseGuards, Req} from '@nestjs/common';
 import { BlogPostService } from './blog-post.service';
-import { ApiResponse} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse} from '@nestjs/swagger';
 import { CreatedPostRdo } from './rdo/created-post.rdo';
 import { fillObject } from '@readme/core';
 import { BlogCommentService } from '../blog-comment/blog-comment.service';
@@ -8,6 +8,8 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { BlogPostQuery } from './query/blog-post.query';
 import { RepostPostDto } from './dto/repost.dto';
 import { NotifyUserDto } from './dto/notify-user.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+
 
 
 @Controller('post')
@@ -19,9 +21,14 @@ export class BlogPostController {
   ){}
 
   @Post('/')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
-  async create( @Body()dto: CreatePostDto ) {  //@User('userId') userId: string
-    const post = await this.blogPostService.create(dto);
+  async create( @Body()dto: CreatePostDto, @Req() request ) {
+    const {user} =request;
+    const {sub} = user;
+    const userId = sub;
+    const post = await this.blogPostService.create(dto, userId);
 
     return fillObject(CreatedPostRdo, post);
   }
@@ -38,26 +45,35 @@ export class BlogPostController {
 
 
   @Patch('/:postId')
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     type: CreatePostDto,
     status: HttpStatus.OK,
     description: 'Post has been updated'
   })
   async update(
+    @Req() request,
     @Param('postId') postId: number,
     @Body() dto: CreatePostDto ) {
-    const updatedPost = await this.blogPostService.update(postId, dto );
+
+    const {user} =request;
+
+
+    const updatedPost = await this.blogPostService.update(user, postId, dto );
 
     return fillObject(CreatedPostRdo, updatedPost);
   }
 
   @Delete('/:postId')
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'Post has been deleted'
   })
-  async delete(@Param('postId') postId: number): Promise <void>{
-    await this.blogPostService.delete(postId);
+  async delete(@Req() request, @Param('postId') postId: number): Promise <void>{
+    const {user} =request;
+
+    await this.blogPostService.delete(user, postId);
 
   }
 

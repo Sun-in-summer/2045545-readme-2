@@ -5,6 +5,7 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DefaultPort } from '@readme/core';
 
 import { AppModule } from './app/app.module';
 
@@ -17,7 +18,7 @@ async function bootstrap() {
     transform: true
   }));
 
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || DefaultPort.Blog;
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`

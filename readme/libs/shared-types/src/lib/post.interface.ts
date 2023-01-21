@@ -1,12 +1,11 @@
 import { PostCategory } from './post-category.types';
-import { PostContentDto } from '../../../../apps/blog/src/app/blog-post/dto/content/content.dto';
 import { Comment } from './comment.interface';
-import { LinkDto } from 'apps/blog/src/app/blog-post/dto/content/link.dto';
-import { PhotoDto } from 'apps/blog/src/app/blog-post/dto/content/photo.dto';
-import { QuoteDto } from 'apps/blog/src/app/blog-post/dto/content/quote.dto';
-import { TextDto } from 'apps/blog/src/app/blog-post/dto/content/text.dto';
-import { VideoDto } from 'apps/blog/src/app/blog-post/dto/content/video.dto';
-import {Link, Text, Quote, Video, Photo} from '@prisma/client'
+import { PostLink, PostLinkWithoutPostCategory } from './post-content.types.ts/post-link.type';
+import { PostPhoto, PostPhotoWithoutPostCategory } from './post-content.types.ts/post-photo.type';
+import { PostQuote, PostQuoteWithoutPostCategory } from './post-content.types.ts/post-quote.type';
+import { PostText, PostTextWithoutPostCategory } from './post-content.types.ts/post-text.type';
+import { PostVideo, PostVideoWithoutPostCategory } from './post-content.types.ts/post-video.type';
+import { PostContent } from './post-content.types.ts/post-content.type';
 
 
 export interface Post {
@@ -26,15 +25,15 @@ export interface Post {
   createdAt?: Date;
   publishedAt?: Date;
   updatedAt?: Date;
-  postContent?: PostContentDto;
+  postContent?: PostContent;
 }
 
 export interface ExtendedPost extends Post {
-  link?: LinkDto | Pick<Link, 'postId'>
-  photo?: PhotoDto | Pick<Photo, 'postId'>
-  quote?: QuoteDto | Pick< Quote, 'postId'>
-  text?: TextDto | Pick < Text, 'postId'>
-  video?: VideoDto | Pick<Video, 'postId'>
+  link?: PostLink | PostLinkWithoutPostCategory
+  photo?: PostPhoto | PostPhotoWithoutPostCategory
+  quote?: PostQuote |PostQuoteWithoutPostCategory
+  text?: PostText |PostTextWithoutPostCategory
+  video?: PostVideo | PostVideoWithoutPostCategory
 }
 
 

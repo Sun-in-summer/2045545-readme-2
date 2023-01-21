@@ -1,10 +1,10 @@
 import { CRUDRepository } from '@readme/core';
 import { BlogPostEntity } from './blog-post.entity';
 import { PrismaService } from '../prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post , ExtendedPost } from '@readme/shared-types';
 import { BlogPostQuery } from './query/blog-post.query';
-import { SortByType } from './blog-post.constant';
+import { PostError, SortByType } from './blog-post.enum';
 
 
 
@@ -71,6 +71,11 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
         photo: true,
       }
     });
+
+    if (!post) {
+      throw new NotFoundException(PostError.NotFound);
+    }
+
 
     return {...post, postId: post.id};
   }
@@ -147,6 +152,13 @@ export class BlogPostRepository implements CRUDRepository<BlogPostEntity, number
         comments: {
           connect: []
         }
+      },  include: {
+        comments: true,
+        video: true,
+        link: true,
+        text: true,
+        quote: true,
+        photo: true,
       }
      });
   }

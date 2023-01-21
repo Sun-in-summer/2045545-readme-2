@@ -2,7 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { Strategy } from 'passport-jwt';
 import {Inject, Injectable} from '@nestjs/common';
-import { jwtConfig } from 'apps/users/src/config/jwt.config';
+import { jwtConfig } from '../../../config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { ExtractJwt } from 'passport-jwt';
 import { RefreshTokenPayload } from '@readme/shared-types';
