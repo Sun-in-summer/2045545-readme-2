@@ -6,6 +6,7 @@
 import { Logger , ValidationPipe} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
+import { DefaultPort } from '@readme/core';
 
 
 import { AppModule } from './app/app.module';
@@ -14,7 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || DefaultPort.Users;
 
   const config = new DocumentBuilder()
     .setTitle('The "Users" service')

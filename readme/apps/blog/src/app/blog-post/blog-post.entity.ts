@@ -7,7 +7,7 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
   public originalPostId: number;
   public userId: string;
   public originalUserId: string;
-  public postCategory: PostCategory; ////
+  public postCategory: PostCategory;
   public postContent: PostContentDto;
   public isDraft: boolean;
   public isRepost: boolean;
@@ -51,7 +51,6 @@ export class BlogPostEntity implements Entity<BlogPostEntity>, Post {
     this.createdAt= new Date(),
     this.updatedAt = new Date(),
     this.publishedAt = new Date(),
-    this.postContent =blogPost.postContent;
     this.isDraft = blogPost.isDraft,
     this.isRepost = blogPost.isRepost || false
     this.postContent = {...blogPost.postContent}

@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import { IsEmail, IsISO8601, IsString, IsNotEmpty , MinLength, MaxLength, IsOptional, IsBoolean} from 'class-validator';
-import { AUTH_USER_EMAIL_NOT_VALID, AUTH_USER_DATE_BIRTH_NOT_VALID } from '../auth.constant';
+import { AuthError } from '../auth.enum';
 export class CreateUserDto {
   @ApiProperty({
     description: 'The unique email of user',
@@ -10,7 +10,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail(
     {},
-    {message: AUTH_USER_EMAIL_NOT_VALID}
+    {message: AuthError.UserEmailNotValid}
   )
   public email: string;
 
@@ -19,7 +19,7 @@ export class CreateUserDto {
     example: "1984-09-05"
   })
   @IsISO8601({
-    message: AUTH_USER_DATE_BIRTH_NOT_VALID
+    message: AuthError.UserBirthdateNotValid
   })
   public birthDate: Date;
 

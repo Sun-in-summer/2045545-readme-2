@@ -1,6 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {  IsOptional,  IsBoolean , IsMongoId,  ValidateNested, ArrayMaxSize} from 'class-validator';
-import { MAX_TAGS_QTY } from '../blog-post.constant';
+import { Transform } from 'class-transformer';
+import {  IsOptional,  IsBoolean , IsMongoId,  ValidateNested, ArrayMaxSize, IsArray, IsString, Length, NotContains} from 'class-validator';
+import { PostConstrains } from '../blog-post.enum';
 import { PostContentDto } from './content/content.dto';
 
 export class CreatePostDto {
@@ -10,7 +11,12 @@ export class CreatePostDto {
     description: 'The list of the tags.',
   })
   @IsOptional()
-  @ArrayMaxSize(MAX_TAGS_QTY)
+  @IsArray({})
+  @ArrayMaxSize(PostConstrains.MaxTagsQuantity)
+  @Length(PostConstrains.MinTagLength, PostConstrains.MaxTagLength, {each: true})
+  @IsString({each: true})
+  @NotContains(PostConstrains.Space, {each: true, message: "Tags should not contain spaces between words"})
+  @Transform(({ value }) => value ? [...value.map((tag: string) => tag.toLowerCase())] : [])
   public tagsList?: string[];
 
 

@@ -7,15 +7,15 @@ import { ContentDtoBase } from "./content.dto";
 export class TextDto extends ContentDtoBase {
   @Expose()
   @IsString()
-  public postTitle?: string;
+  public postTitle: string;
 
   @Expose()
   @IsString()
-  public previewText?: string;
+  public previewText: string;
 
   @Expose()
   @IsString()
-  public postText?: string;
+  public postText: string;
 
 
   constructor() {

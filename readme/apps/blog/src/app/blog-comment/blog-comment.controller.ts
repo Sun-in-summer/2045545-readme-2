@@ -4,9 +4,9 @@ import { ApiBearerAuth, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { CreatedCommentRdo } from './rdo/created-comment.rdo';
 import { fillObject } from '@readme/core';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { DEFAULT_COMMENTS_COUNT, DEFAULT_PAGE } from './blog-comment.constant';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { RequestWithUser } from '@readme/shared-types';
+import { CommentsPagination } from './blog-comment.enum';
+
 @ApiTags('comment')
 @Controller('comment')///
 export class BlogCommentController {
@@ -27,8 +27,11 @@ export class BlogCommentController {
     status: HttpStatus.BAD_REQUEST,
     description: 'The request is invalid!'
   })
-  public async create(@Body() dto: CreateCommentDto) {
-    const comment = await this.blogCommentService.create(dto);
+  public async create(@Body() dto: CreateCommentDto, @Req() request) {
+    const {user} =request;
+    const {sub} = user;
+    const userId= sub;
+    const comment = await this.blogCommentService.create(dto, userId);
     return fillObject(CreatedCommentRdo, comment);
   }
 
@@ -40,8 +43,8 @@ export class BlogCommentController {
   })
   public async showByPostId(
       @Param('postId') postId: number,
-      @Query ('page', new DefaultValuePipe(DEFAULT_PAGE)) page: number,
-      @Query ('commentsCount', new DefaultValuePipe(DEFAULT_COMMENTS_COUNT)) commentsCount: number
+      @Query ('page', new DefaultValuePipe(CommentsPagination.DefaultPage)) page: number,
+      @Query ('commentsCount', new DefaultValuePipe(CommentsPagination.CommentsCount)) commentsCount: number
   ){
     const existComments = await this.blogCommentService.getCommentsByPostId(postId, page, commentsCount);
     return fillObject(CreatedCommentRdo, existComments);
@@ -69,8 +72,11 @@ export class BlogCommentController {
     status: HttpStatus.FORBIDDEN,
     description: 'The user is not logged in or is not an author of comment'
   })
-  public async delete(@Param('commentId') commentId: number, @Req() request: RequestWithUser){
-    return this.blogCommentService.delete(commentId, request.user._id);
+  public async delete(@Param('commentId') commentId: number, @Req() request){
+    const {user} =request;
+    const {sub} = user;
+    const userId= sub;
+      return this.blogCommentService.delete(commentId, userId);
   }
 
   @Patch('/comments/:commentId')
@@ -80,9 +86,12 @@ export class BlogCommentController {
     status: HttpStatus.OK,
     description: "Comment has been updated"
   })
-  public async update(@Param('commentId') commentId: number, @Body() dto: CreateCommentDto){
+  public async update(@Param('commentId') commentId: number, @Body() dto: CreateCommentDto, @Req() request ){
+    const {user} =request;
+    const {sub} = user;
+    const userId= sub;
 
-   const updatedComment = await this.blogCommentService.update(commentId, dto );
+   const updatedComment = await this.blogCommentService.update(commentId, dto, userId );
     return fillObject(CreatedCommentRdo, updatedComment);
    }
 

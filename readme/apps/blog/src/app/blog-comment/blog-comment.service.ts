@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Comment } from '@readme/shared-types';
 import { BlogCommentRepository} from './blog-comment.repository'
 import { BlogCommentEntity } from './blog-comment.entity';
 import {  CreateCommentDto } from './dto/create-comment.dto';
-import { NO_PERMISSION, COMMENT_NOT_FOUND } from './blog-comment.constant';
+import { CommentError } from './blog-comment.enum';
 
 
 @Injectable()
@@ -13,24 +13,24 @@ export class BlogCommentService {
     private readonly blogCommentRepository: BlogCommentRepository
   ){}
 
-  async create(dto: CreateCommentDto): Promise <Comment> {
+  async create(dto: CreateCommentDto, userId: string): Promise <Comment> {
 
-    const commentEntity = new BlogCommentEntity(dto);
+    const commentEntity = new BlogCommentEntity({...dto, userId});
 
     return this.blogCommentRepository.create(commentEntity);
 
   }
 
-  async update (commentId: number,  dto: CreateCommentDto ): Promise <Comment> {
+  async update (commentId: number,  dto: CreateCommentDto, userId: string ): Promise <Comment> {
      const existComment = await this.blogCommentRepository.findById(commentId);
 
-    //  if(!existComment) {
-    //   throw new Error (COMMENT_NOT_FOUND)
-    //  }
+          if(!existComment) {
+      throw new NotFoundException(CommentError.NotFound)
+     }
 
-    //  if (existComment.userId !== userId) {
-    //   throw new Error (NO_PERMISSION);
-    //  }
+     if (existComment.userId !== userId) {
+      throw new UnauthorizedException(CommentError.NoPermission);
+     }
 
      const updatedData =await new BlogCommentEntity({...existComment, ...dto});
 
@@ -41,10 +41,10 @@ export class BlogCommentService {
   async delete (commentId: number, userId: string): Promise <void> {
     const existComment = await this.blogCommentRepository.findById(commentId);
     if (!existComment) {
-     throw new Error(COMMENT_NOT_FOUND);
+     throw new NotFoundException(CommentError.NotFound);
     }
-    if (existComment.userId !== userId ){
-      throw new Error (NO_PERMISSION);
+     if (existComment.userId !== userId ){
+      throw new UnauthorizedException(CommentError.NoPermission);
     }
     this.blogCommentRepository.destroy(commentId);
   }
@@ -69,13 +69,12 @@ export class BlogCommentService {
 
   async updateComment(commentId: number, dto: CreateCommentDto) : Promise <Comment> {
    const existComment = await this.blogCommentRepository.findById(commentId);
-   console.log(existComment.userId);
-   console.log(dto.userId);
+
     if (!existComment) {
-     throw new Error(COMMENT_NOT_FOUND);
+     throw new NotFoundException(CommentError.NotFound);
     }
     if (existComment.userId !== dto.userId ){
-      throw new Error (NO_PERMISSION);
+      throw new UnauthorizedException(CommentError.NoPermission);
     }
       return this.blogCommentRepository.update(commentId, new BlogCommentEntity(dto));
   }

@@ -1,6 +1,7 @@
+// import { Entity } from '@readme/core';
 import {Comment} from '@readme/shared-types';
 
-export class BlogCommentEntity implements Comment {
+export class BlogCommentEntity implements  Comment {
   public commentText: string;
   public postId: number;
   public userId: string;
@@ -8,6 +9,7 @@ export class BlogCommentEntity implements Comment {
 
   constructor (blogComment: Comment) {
     this.fillEntity(blogComment);
+
   }
 
   public toObject() {

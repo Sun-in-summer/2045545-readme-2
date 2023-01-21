@@ -7,7 +7,7 @@ import { ContentDtoBase } from "./content.dto";
 export class PhotoDto extends ContentDtoBase {
   @Expose()
   @IsString()
-  public photoLink?: string;
+  public photoLink: string;
 
   constructor() {
     super()

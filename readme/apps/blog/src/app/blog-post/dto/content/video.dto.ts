@@ -7,11 +7,11 @@ import { ContentDtoBase } from "./content.dto";
 export class VideoDto extends ContentDtoBase {
   @Expose()
   @IsString()
-  postTitle?: string;
+  postTitle: string;
 
   @Expose()
   @IsUrl()
-  videoLink?: string;
+  videoLink: string;
 
   constructor() {
     super()

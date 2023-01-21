@@ -1,15 +1,17 @@
-import { Injectable , Inject} from '@nestjs/common';
+import { Injectable , Inject, NotFoundException} from '@nestjs/common';
 import { CommandEvent, Post } from '@readme/shared-types';
-// import { BlogPostMemoryRepository } from '../blog-post/blog-post-memory.repository';
 import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostEntity } from '../blog-post/blog-post.entity';
 import {  CreatePostDto } from './dto/create-post.dto';
 import * as dayjs from 'dayjs';
-import {  POST_NOT_FOUND } from './blog-post.constant';
 import { BlogPostQuery } from './query/blog-post.query';
 import {RABBITMQ_SERVICE} from './blog-post.constant';
 import {ClientProxy} from '@nestjs/microservices';
 import { RepostPostDto } from './dto/repost.dto';
+import { PostError } from './blog-post.enum';
+import { validatePostUserId } from '@readme/core';
+
+
 
 
 @Injectable()
@@ -20,10 +22,12 @@ export class BlogPostService {
     @Inject(RABBITMQ_SERVICE) private readonly rabbitClient: ClientProxy,
   ){}
 
-  async create(dto: CreatePostDto): Promise<Post> {
+  async create(dto: CreatePostDto, userId: string): Promise<Post> {
+
     const postEntity = new BlogPostEntity(
       {
       ...dto,
+      userId: userId,
       createdAt: dayjs(new Date()).toDate(),
       publishedAt: dayjs(new Date()).toDate(),
       commentsCount: 0,
@@ -39,12 +43,14 @@ export class BlogPostService {
 
   }
 
-  async update (postId: number, dto: CreatePostDto ): Promise <Post> {
+  async update (userId: string, postId: number, dto: CreatePostDto ): Promise <Post> {
      const existPost = await this.blogPostRepository.findById(postId);
 
-     if(!existPost) {
-      throw new Error (POST_NOT_FOUND)
+     if (!existPost){
+      throw new NotFoundException(PostError.NotFound);
      }
+
+     validatePostUserId(existPost, userId);
 
      const updatedData = new BlogPostEntity({...existPost, ...dto, updatedAt: new Date});
 
@@ -52,14 +58,9 @@ export class BlogPostService {
 
   }
 
-  async delete(postId: number) {
-    // const existPost = await this.blogPostRepository.findById(postId);
-    // if (!existPost) {
-    //   throw new Error(POST_NOT_FOUND);
-    // }
-    // if (existPost.userId !== userId ){
-    //   throw new Error (NO_PERMISSION);
-    // }
+  async delete(userId: string, postId: number) {
+    const existPost = await this.blogPostRepository.findById(postId);
+    validatePostUserId(existPost, userId);
     return await this.blogPostRepository.destroy(postId)
   }
 
@@ -78,7 +79,7 @@ export class BlogPostService {
 
 
     if (!post) {
-      throw  new Error(POST_NOT_FOUND);
+      throw  new NotFoundException(PostError.NotFound);
     }
     const originalUserId = post.userId;
     const originalPostId = post.postId;

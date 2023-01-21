@@ -1,22 +1,22 @@
 import { IsEnum, IsIn, IsNumber, IsOptional, IsString} from 'class-validator';
 import { Transform } from 'class-transformer';
-import { DEFAULT_SORT_DIRECTION, DEFAULT_POST_COUNT_LIMIT, DEFAULT_PAGE_COUNT } from '../blog-post.constant';
+import { SortDirection } from '../blog-post.enum';
 import { PostCategory } from '@prisma/client';
-import { SortByType } from '../blog-post.constant';
+import { PostPagination, SortByType} from '../blog-post.enum';
 
 export class BlogPostQuery {
-  @Transform(({value})=> +value || DEFAULT_POST_COUNT_LIMIT)
+  @Transform(({value})=> +value || PostPagination.DefaultCountLimit)
   @IsNumber()
   @IsOptional()
-  public limit = DEFAULT_POST_COUNT_LIMIT;
+  public limit = PostPagination.DefaultCountLimit;
 
   @Transform(({value}) => +value)
   @IsOptional()
-  public page = DEFAULT_PAGE_COUNT;
+  public page = PostPagination.DefaultPageCount;
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortDirection?: 'desc' | 'asc' = DEFAULT_SORT_DIRECTION;
+  public sortDirection?: 'desc' | 'asc' = SortDirection.Default;
 
 
   @IsString()
